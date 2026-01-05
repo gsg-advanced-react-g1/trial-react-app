@@ -1,75 +1,93 @@
-# React + TypeScript + Vite
+# GSG Advanced React – Group 1 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository is used by **Group 1** in the **Advanced React Bootcamp** organized by **Gaza Sky Geeks**.
 
-Currently, two official plugins are available:
+It serves as a central place for:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Team collaboration
+- Project documentation
+- Guidelines and shared resources
 
-## React Compiler
+---
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 👥 Team Information
 
-Note: This will impact Vite dev & build performances.
+- Program: **Advanced React Bootcamp**
+- Organization: **Gaza Sky Geeks**
+- Group: **G1**
+- Focus: Building scalable, production-ready React applications
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧑‍💻 Team Members
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Belal Sohail**<br>
+  GitHub: [@Belal-sk99](https://github.com/Belal-sk99)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Ayman Ismail**<br>
+  GitHub: [@ReBestX](https://github.com/ReBestX)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Mohammad Flaifel**<br>
+  GitHub: [@mFlaifel](https://github.com/mFlaifel)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Momen Alsawafiri**<br>
+  GitHub: [@momen-x](https://github.com/momen-x)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧠 What We’re Working On
+
+During this bootcamp, our team is focusing on:
+
+- Advanced React patterns (Custom Hooks, Compound Components, etc.)
+- Clean and scalable component architecture
+- State management & performance optimization
+- REST API integration
+- Real-world, production-like projects
+- Code reviews & collaborative workflows
+
+---
+
+## 📁 Repository Purpose
+
+This repository may include:
+
+- Project guidelines
+- Team conventions & best practices
+- Shared resources and references
+- Links to sub-projects or repositories
+
+> Each main project will usually live in its own dedicated repository.
+
+---
+
+## 🛠 Tech Stack
+
+- React
+- TypeScript
+- Modern React Hooks
+- REST APIs
+- Git & GitHub collaboration
+
+---
+
+## 📌 Notes
+
+- This repository is part of a **training & learning program**
+- Code quality, readability, and best practices are a priority
+- Contributions follow agreed team conventions
+
+---
+
+## 🤝 Collaboration
+
+All team members are encouraged to:
+
+- Follow clean code principles
+- Communicate clearly through issues & pull requests
+- Review each other’s work respectfully
+
+---
+
+**Gaza Sky Geeks – Advanced React Bootcamp**  
+Building real-world skills, one project at a time 💙
