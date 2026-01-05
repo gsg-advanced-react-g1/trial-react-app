@@ -8,7 +8,7 @@ function App() {
   return (
     <MantineProvider>
       <ProductsProvider value="Products">
-        <h1> This is trial react app </h1>
+        <h3> This is trial react app </h3>
       </ProductsProvider>
     </MantineProvider>
   )
