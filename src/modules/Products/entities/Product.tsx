@@ -8,6 +8,9 @@ export type Product = {
   isAvailable: boolean;
   hasDiscounts: boolean;
   reviews: Review[];
+  rating: number;
+  tags: string[];
+  brand: string;
 };
 
 export type Review = {

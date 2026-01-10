@@ -1,6 +1,6 @@
 import { createContext, useContext, type PropsWithChildren } from 'react';
-import type { ProductsRepository } from './repo/ProductsRepository';
 import { restProducts } from './repo/restProducts';
+import type { ProductsRepository } from './repo/ProductsRepository';
 
 const ProductsContext = createContext<ProductsRepository | null>(null);
 

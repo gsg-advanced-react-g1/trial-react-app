@@ -6,7 +6,11 @@ export type ProductDto = {
   price: number;
   thumbnail: string;
   stock: number;
+  discountPercentage: number;
   reviews: ReviewDto[];
+  rating: number;
+  tags: string[];
+  brand: string;
 };
 
 export type ReviewDto = {

@@ -7,7 +7,7 @@ export const useGetAllProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    getAll().then((products) => {
+    getAll().then((products: Product[]) => {
       setProducts(products);
     });
   }, []);

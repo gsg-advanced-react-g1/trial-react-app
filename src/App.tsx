@@ -1,11 +1,13 @@
 import './App.css';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
-import { createProductsModule } from './modules/Products';
 import Products from './modules/Products/views';
 
+import { createProductsModule } from './modules/Products/index.tsx';
+
+const { Provider: ProductsProvider } = createProductsModule();
+
 function App() {
-  const { Provider: ProductsProvider } = createProductsModule();
   return (
     <MantineProvider>
       <ProductsProvider>
