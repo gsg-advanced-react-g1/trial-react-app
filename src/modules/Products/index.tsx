@@ -1,21 +1,39 @@
-import { createContext, useContext, type PropsWithChildren } from "react";
+import { createContext, useContext, type PropsWithChildren } from 'react';
+import type { ProductsRepository } from './repo/ProductsRepository';
+import { restProducts } from './repo/restProducts';
 
-const ProductsContext = createContext<string | null>(null)
+const ProductsContext = createContext<ProductsRepository | null>(null);
 
-type ProductsProviderProps = PropsWithChildren<{ value: string }>
+type ProductsProviderProps = PropsWithChildren<{
+  value: ProductsRepository;
+}>;
 
-export const ProductsProvider = ({ value, children }: ProductsProviderProps) => {
-    return (
-        <ProductsContext.Provider value={value}>
-            {children}
-        </ProductsContext.Provider>
-    )
-}
+export const ProductsProvider = ({
+  value,
+  children,
+}: ProductsProviderProps) => {
+  return (
+    <ProductsContext.Provider value={value}>
+      {children}
+    </ProductsContext.Provider>
+  );
+};
 
 export const useProducts = () => {
-    const context = useContext(ProductsContext)
-    if (!context) {
-        throw new Error("useProducts must be used within a ProductsProvider")
-    }
-    return context
-}
+  const context = useContext(ProductsContext);
+
+  if (context === null) {
+    throw new Error('useProducts must be used within a ProductsProvider');
+  }
+
+  return context;
+};
+
+export const createProductsModule = () => {
+  const value = restProducts();
+  return {
+    Provider: ({ children }: PropsWithChildren) => (
+      <ProductsProvider value={value}>{children}</ProductsProvider>
+    ),
+  };
+};
