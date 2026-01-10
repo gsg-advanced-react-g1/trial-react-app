@@ -1,4 +1,4 @@
-import type { ProductDto } from '../dto/products';
+import type { ProductDto } from '../dto/Products';
 import type { Product } from '../entities/Product';
 
 export const toProduct = (products: ProductDto[]): Product[] => {
