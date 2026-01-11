@@ -19,10 +19,30 @@ import {
   IconTags,
 } from '@tabler/icons-react';
 import { useGetAllProducts } from '../hooks/useGetAllProducts.ts';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const Products = () => {
-  const { products } = useGetAllProducts();
+  const { products, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetAllProducts();
+
+  const observerTarget = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
   console.log('Products fetched:', products);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
@@ -284,6 +304,12 @@ export const Products = () => {
           </Grid.Col>
         );
       })}
+      {isFetchingNextPage && (
+        <Grid.Col span={{ base: 12 }}>
+          <Text>Loading more products...</Text>
+        </Grid.Col>
+      )}
+      <div ref={observerTarget} style={{ width: '100%', height: 20 }} />
     </Grid>
   );
 };

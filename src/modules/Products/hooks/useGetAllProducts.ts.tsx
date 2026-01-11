@@ -1,21 +1,36 @@
 import { useProducts } from '..';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const reactQueryProductsKey = 'products';
+const PRODUCTS_PER_PAGE = 8;
 
 export const useGetAllProducts = () => {
   const { getAll } = useProducts();
 
-  //use react query here now
-
   const {
-    data = [],
-    refetch,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
     isError,
-  } = useQuery({
+  } = useInfiniteQuery({
     queryKey: [reactQueryProductsKey],
-    queryFn: getAll,
+    queryFn: ({ pageParam = 0 }) =>
+      getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === PRODUCTS_PER_PAGE ? allPages.length : undefined,
+    initialPageParam: 0,
   });
-  return { products: data, refetch, isLoading, isError };
+
+  const products = data?.pages.flat() ?? [];
+
+  return {
+    products,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  };
 };

@@ -6,8 +6,8 @@ const Base_URL = 'https://dummyjson.com/products';
 
 export const restProducts = (): ProductsRepository => {
   return {
-    getAll: async (): Promise<Product[]> => {
-      const response = await fetch(Base_URL);
+    getAll: async (limit = 0, skip = 0): Promise<Product[]> => {
+      const response = await fetch(`${Base_URL}?limit=${limit}&skip=${skip}`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
