@@ -11,18 +11,19 @@ import {
   Tooltip,
   ActionIcon,
   Paper,
-} from "@mantine/core";
+} from '@mantine/core';
 import {
   IconShoppingCart,
   IconHeart,
   IconEye,
   IconTags,
-} from "@tabler/icons-react";
-import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
-import { useState } from "react";
+} from '@tabler/icons-react';
+import { useGetAllProducts } from '../hooks/useGetAllProducts.ts';
+import { useState } from 'react';
 
 export const Products = () => {
   const { products } = useGetAllProducts();
+  console.log('Products fetched:', products);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const toggleFavorite = (productId: string) => {
@@ -37,16 +38,14 @@ export const Products = () => {
     });
   };
 
-  const calculateAverageRating = (
-    reviews: { rating: number }[]
-  ): number => {
+  const calculateAverageRating = (reviews: { rating: number }[]): number => {
     if (reviews.length === 0) return 0;
     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
     return sum / reviews.length;
   };
 
   return (
-    <Grid gutter="lg">
+    <Grid gutter='lg'>
       {products.map((product) => {
         const avgRating = calculateAverageRating(product.reviews);
         const isFavorite = favorites.has(product.id);
@@ -54,39 +53,39 @@ export const Products = () => {
         return (
           <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4, lg: 3 }}>
             <Card
-              shadow="sm"
-              padding="lg"
-              radius="md"
+              shadow='sm'
+              padding='lg'
+              radius='md'
               withBorder
               style={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                position: "relative",
-                overflow: "hidden",
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                position: 'relative',
+                overflow: 'hidden',
               }}
-              className="product-card"
+              className='product-card'
             >
               {/* Badges Overlay */}
               <div
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   top: 12,
                   left: 12,
                   zIndex: 2,
-                  display: "flex",
-                  flexDirection: "column",
+                  display: 'flex',
+                  flexDirection: 'column',
                   gap: 8,
                 }}
               >
                 {!product.isAvailable && (
-                  <Badge color="red" variant="filled" size="lg">
+                  <Badge color='red' variant='filled' size='lg'>
                     Out of Stock
                   </Badge>
                 )}
                 {product.hasDiscounts && product.isAvailable && (
-                  <Badge color="pink" variant="filled" size="lg">
+                  <Badge color='pink' variant='filled' size='lg'>
                     Sale
                   </Badge>
                 )}
@@ -94,12 +93,12 @@ export const Products = () => {
 
               {/* Favorite Icon */}
               <ActionIcon
-                variant="filled"
-                color={isFavorite ? "red" : "gray"}
-                radius="xl"
-                size="lg"
+                variant='filled'
+                color={isFavorite ? 'red' : 'gray'}
+                radius='xl'
+                size='lg'
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   top: 12,
                   right: 12,
                   zIndex: 2,
@@ -108,43 +107,43 @@ export const Products = () => {
               >
                 <IconHeart
                   size={18}
-                  fill={isFavorite ? "currentColor" : "none"}
+                  fill={isFavorite ? 'currentColor' : 'none'}
                 />
               </ActionIcon>
 
               {/* Image Section */}
               <Card.Section>
-                <div style={{ position: "relative", overflow: "hidden" }}>
+                <div style={{ position: 'relative', overflow: 'hidden' }}>
                   <Image
                     src={product.image}
                     height={220}
                     alt={product.name}
-                    fit="cover"
+                    fit='cover'
                     style={{
-                      transition: "transform 0.3s ease",
+                      transition: 'transform 0.3s ease',
                     }}
-                    className="product-image"
+                    className='product-image'
                   />
                   {/* Quick View Overlay */}
                   <div
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       inset: 0,
                       background:
-                        "linear-gradient(to top, rgba(0,0,0,0.6), transparent)",
-                      display: "flex",
-                      alignItems: "flex-end",
-                      justifyContent: "center",
+                        'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'center',
                       opacity: 0,
-                      transition: "opacity 0.3s ease",
-                      padding: "1rem",
+                      transition: 'opacity 0.3s ease',
+                      padding: '1rem',
                     }}
-                    className="quick-view-overlay"
+                    className='quick-view-overlay'
                   >
                     <Button
-                      variant="white"
+                      variant='white'
                       leftSection={<IconEye size={16} />}
-                      size="sm"
+                      size='sm'
                     >
                       Quick View
                     </Button>
@@ -153,20 +152,25 @@ export const Products = () => {
               </Card.Section>
 
               {/* Content Section */}
-              <Stack gap="xs" mt="md" style={{ flexGrow: 1 }}>
+              <Stack gap='xs' mt='md' style={{ flexGrow: 1 }}>
                 {/* Brand & Category */}
-                <Group justify="space-between" gap="xs">
-                  <Badge color="gray" variant="light" size="sm">
+                <Group justify='space-between' gap='xs'>
+                  <Badge color='gray' variant='light' size='sm'>
                     {product.brand}
                   </Badge>
-                  <Badge color="blue" variant="dot" size="sm">
+                  <Badge color='blue' variant='dot' size='sm'>
                     {product.category}
                   </Badge>
                 </Group>
 
                 {/* Product Name */}
                 <Tooltip label={product.name} openDelay={500}>
-                  <Text fw={600} size="md" lineClamp={2} style={{ minHeight: 48 }}>
+                  <Text
+                    fw={600}
+                    size='md'
+                    lineClamp={2}
+                    style={{ minHeight: 48 }}
+                  >
                     {product.name}
                   </Text>
                 </Tooltip>
@@ -174,29 +178,44 @@ export const Products = () => {
                 {/* Rating */}
                 {product.reviews.length > 0 && (
                   <Group gap={6}>
-                    <Rating value={avgRating} fractions={2} readOnly size="sm" />
-                    <Text size="sm" c="dimmed">
+                    <Rating
+                      value={avgRating}
+                      fractions={2}
+                      readOnly
+                      size='sm'
+                    />
+                    <Text size='sm' c='dimmed'>
                       ({product.reviews.length})
                     </Text>
                   </Group>
                 )}
 
                 {/* Description */}
-                <Text size="sm" c="dimmed" lineClamp={2} style={{ flexGrow: 1 }}>
+                <Text
+                  size='sm'
+                  c='dimmed'
+                  lineClamp={2}
+                  style={{ flexGrow: 1 }}
+                >
                   {product.description}
                 </Text>
 
                 {/* Tags */}
                 {product.tags.length > 0 && (
                   <Group gap={4}>
-                    <IconTags size={14} color="gray" />
+                    <IconTags size={14} color='gray' />
                     {product.tags.slice(0, 2).map((tag, index) => (
-                      <Badge key={index} size="xs" variant="outline" color="gray">
+                      <Badge
+                        key={index}
+                        size='xs'
+                        variant='outline'
+                        color='gray'
+                      >
                         {tag}
                       </Badge>
                     ))}
                     {product.tags.length > 2 && (
-                      <Badge size="xs" variant="outline" color="gray">
+                      <Badge size='xs' variant='outline' color='gray'>
                         +{product.tags.length - 2}
                       </Badge>
                     )}
@@ -205,26 +224,27 @@ export const Products = () => {
 
                 {/* Price Section */}
                 <Paper
-                  p="xs"
-                  radius="md"
+                  p='xs'
+                  radius='md'
                   style={{
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    marginTop: "auto",
+                    background:
+                      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    marginTop: 'auto',
                   }}
                 >
-                  <Group justify="space-between" align="center">
+                  <Group justify='space-between' align='center'>
                     <div>
-                      <Text size="xs" c="white" opacity={0.9}>
+                      <Text size='xs' c='white' opacity={0.9}>
                         Price
                       </Text>
-                      <Text fw={700} size="xl" c="white">
+                      <Text fw={700} size='xl' c='white'>
                         ${product.price.toFixed(2)}
                       </Text>
                     </div>
                     <ActionIcon
-                      variant="white"
-                      size="xl"
-                      radius="md"
+                      variant='white'
+                      size='xl'
+                      radius='md'
                       disabled={!product.isAvailable}
                     >
                       <IconShoppingCart size={20} />
@@ -234,16 +254,16 @@ export const Products = () => {
 
                 {/* Action Button */}
                 <Button
-                  color="blue"
+                  color='blue'
                   fullWidth
-                  radius="md"
-                  size="md"
+                  radius='md'
+                  size='md'
                   disabled={!product.isAvailable}
                   leftSection={<IconShoppingCart size={18} />}
-                  variant="gradient"
-                  gradient={{ from: "blue", to: "cyan", deg: 90 }}
+                  variant='gradient'
+                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
                 >
-                  {product.isAvailable ? "Add to Cart" : "Out of Stock"}
+                  {product.isAvailable ? 'Add to Cart' : 'Out of Stock'}
                 </Button>
               </Stack>
 

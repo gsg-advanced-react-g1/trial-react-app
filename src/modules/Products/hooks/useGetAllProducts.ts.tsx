@@ -1,18 +1,21 @@
-import { useEffect, useState } from 'react';
 import { useProducts } from '..';
-import type { Product } from '../entities/Product';
+import { useQuery } from '@tanstack/react-query';
+
+const reactQueryProductsKey = 'products';
 
 export const useGetAllProducts = () => {
   const { getAll } = useProducts();
-  const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    getAll().then((products: Product[]) => {
-      setProducts(products);
-    });
-  }, []);
+  //use react query here now
 
-  return {
-    products,
-  };
+  const {
+    data = [],
+    refetch,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [reactQueryProductsKey],
+    queryFn: getAll,
+  });
+  return { products: data, refetch, isLoading, isError };
 };
