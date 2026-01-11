@@ -1,20 +1,27 @@
 import './App.css';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
-import Products from './modules/Products/views';
+// import Products from './modules/Products/views';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { createProductsModule } from './modules/Products/index.tsx';
+import { Products } from './modules/Products/views/index.tsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const { Provider: ProductsProvider } = createProductsModule();
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <MantineProvider>
-      <ProductsProvider>
-        <h3> This is trial react app </h3>
-        <Products />
-      </ProductsProvider>
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>
+        <ProductsProvider>
+          <ReactQueryDevtools />
+          <h3> This is trial react app </h3>
+          <Products />
+        </ProductsProvider>
+      </MantineProvider>
+    </QueryClientProvider>
   );
 }
 
