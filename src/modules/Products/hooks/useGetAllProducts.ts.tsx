@@ -1,18 +1,36 @@
-import { useEffect, useState } from 'react';
 import { useProducts } from '..';
-import type { Product } from '../entities/Product';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+const reactQueryProductsKey = 'products';
+const PRODUCTS_PER_PAGE = 8;
 
 export const useGetAllProducts = () => {
   const { getAll } = useProducts();
-  const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    getAll().then((products: Product[]) => {
-      setProducts(products);
-    });
-  }, []);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: [reactQueryProductsKey],
+    queryFn: ({ pageParam = 0 }) =>
+      getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === PRODUCTS_PER_PAGE ? allPages.length : undefined,
+    initialPageParam: 0,
+  });
+
+  const products = data?.pages.flat() ?? [];
 
   return {
     products,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
   };
 };
