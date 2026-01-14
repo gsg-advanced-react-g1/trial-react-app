@@ -6,19 +6,29 @@ import { useGetCategories } from '../../hooks/useGetCategories';
 
 type SearchBarProps = {
     setFilters: React.Dispatch<React.SetStateAction<ProductsFilters>>;
-    category: string;
+    filters: ProductsFilters;
 };
 
 
-const SearchBar = ({ setFilters, category }: SearchBarProps) => {
+const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
 
     const { data: categories, isLoading, isError
     } = useGetCategories();
 
-    const handleCategoryChange = (value: string) => {
-        setFilters({ category: value });
+    const handleCategoryChange = (value: string | null) => {
+        setFilters((prev) => ({
+            ...prev,
+            category: value ?? "All Categories",
+        }));
+    };
 
-    }
+    const handleSearchChange = (value: string) => {
+        setFilters((prev) => ({
+            ...prev,
+            search: value,
+        }));
+    };
+
 
     return (
         <div className='flex w-full justify-between items-center'>
@@ -27,6 +37,8 @@ const SearchBar = ({ setFilters, category }: SearchBarProps) => {
                 placeholder="Search"
                 rightSection={<IconSearch size={16} />}
                 className='flex-[0.6]'
+                value={filters?.search}
+                onChange={(e) => handleSearchChange(e.target.value)}
             />
             <div className="flex flex-1 gap-5 justify-end">
 
@@ -34,7 +46,7 @@ const SearchBar = ({ setFilters, category }: SearchBarProps) => {
                     placeholder="Category"
                     data={["All Categories", ...(categories?.map((category) => category.slug) || [])]}
                     defaultValue="All Categories"
-                    value={category}
+                    value={filters?.category}
                     onChange={(selectedValue) => handleCategoryChange(selectedValue as string)}
                     disabled={isLoading || isError}
                 />

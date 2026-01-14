@@ -17,16 +17,20 @@ import {
   IconHeart,
   IconEye,
   IconTags,
+
 } from "@tabler/icons-react";
 import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
 import { useEffect, useRef, useState } from "react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
 import SearchBar from "./components/SearchBar.tsx";
 import type { ProductsFilters } from "../entities/Product.ts";
+import { PulseLoader } from "react-spinners";
 
 export const Products = () => {
+
   const [filters, setFilters] = useState<ProductsFilters>({
-    category: "All Categories"
+    category: "All Categories",
+    search: "",
   });
   const { products, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useGetAllProducts(filters);
@@ -80,9 +84,12 @@ export const Products = () => {
 
   return (
     <div className="flex flex-col gap-7">
-      <SearchBar setFilters={setFilters} category={filters?.category || "All Categories"} />
+      <SearchBar setFilters={setFilters} filters={filters} />
       <Grid gutter="lg">
-        {products.map((product) => {
+        {products?.filter((product) => {
+          const q = filters?.search?.toLowerCase() || "";
+          return q === "" ? product : product.name.toLowerCase().includes(q) || product.description.toLowerCase().includes(q);
+        }).map((product) => {
           const avgRating = calculateAverageRating(product.reviews);
           const isFavorite = favorites.has(product.id);
 
@@ -335,8 +342,8 @@ export const Products = () => {
           );
         })}
         {isFetchingNextPage && (
-          <Grid.Col span={{ base: 12 }}>
-            <Text>Loading more products...</Text>
+          <Grid.Col span={{ base: 12 }} >
+            <PulseLoader color="#000" size={15} />
           </Grid.Col>
         )}
         <div ref={observerTarget} style={{ width: "100%", height: 20 }} />
