@@ -1,7 +1,8 @@
-import { useProducts } from '..';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useProducts } from "..";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import type { Product } from "../entities/Product";
 
-const reactQueryProductsKey = 'products';
+const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;
 
 export const useGetAllProducts = () => {
@@ -18,9 +19,15 @@ export const useGetAllProducts = () => {
     queryKey: [reactQueryProductsKey],
     queryFn: ({ pageParam = 0 }) =>
       getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE),
-    getNextPageParam: (lastPage, allPages) =>
+    getNextPageParam: (lastPage: Product[], allPages) =>
       lastPage.length === PRODUCTS_PER_PAGE ? allPages.length : undefined,
     initialPageParam: 0,
+    select: (data) => ({
+      ...data,
+      pages: data.pages.map((page) =>
+        page.filter((product) => !product.isDeleted)
+      ),
+    }),
   });
 
   const products = data?.pages.flat() ?? [];
