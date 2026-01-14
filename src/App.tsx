@@ -16,7 +16,6 @@ function App() {
       <MantineProvider>
         <ProductsProvider>
           <ReactQueryDevtools />
-          <h3> This is trial react app </h3>
           <Products />
         </ProductsProvider>
       </MantineProvider>

@@ -1,3 +1,4 @@
+
 export type Product = {
   id: string;
   name: string;
@@ -23,3 +24,9 @@ export type Review = {
     email: string;
   };
 };
+
+export type Category = {
+  slug: string;
+  name: string;
+  url: string;
+}

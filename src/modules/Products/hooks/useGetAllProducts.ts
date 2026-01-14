@@ -1,12 +1,13 @@
 import { useProducts } from "..";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Product } from "../entities/Product";
+import type { ProductsFilters } from "../Types/types";
 
 const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;
 
-export const useGetAllProducts = () => {
-  const { getAll } = useProducts();
+export const useGetAllProducts = (filters?: ProductsFilters) => {
+  const { getAll, getCategories } = useProducts();
 
   const {
     data,
@@ -25,7 +26,8 @@ export const useGetAllProducts = () => {
     select: (data) => ({
       ...data,
       pages: data.pages.map((page) =>
-        page.filter((product) => !product.isDeleted)
+        page.filter((product) => !product.isDeleted
+          && (filters?.category && filters?.category !== "All Categories" ? product.category === filters.category : true))
       ),
     }),
   });
