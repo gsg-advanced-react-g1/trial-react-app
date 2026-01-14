@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Input, Select } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import type { ProductsFilters } from '../../Types/types';
+import type { ProductsFilters } from '../../entities/Product';
 import { useGetCategories } from '../../hooks/useGetCategories';
 
 type SearchBarProps = {

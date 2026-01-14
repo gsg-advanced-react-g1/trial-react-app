@@ -22,7 +22,7 @@ import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
 import { useEffect, useRef, useState } from "react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
 import SearchBar from "./components/SearchBar.tsx";
-import type { ProductsFilters } from "../Types/types.ts";
+import type { ProductsFilters } from "../entities/Product.ts";
 
 export const Products = () => {
   const [filters, setFilters] = useState<ProductsFilters>({

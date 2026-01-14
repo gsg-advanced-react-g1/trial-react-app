@@ -1,7 +1,7 @@
 import { useProducts } from "..";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Product } from "../entities/Product";
-import type { ProductsFilters } from "../Types/types";
+import type { ProductsFilters } from "../entities/Product";
 
 const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;

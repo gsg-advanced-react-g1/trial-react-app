@@ -25,6 +25,9 @@ export type Review = {
   };
 };
 
+export type ProductsFilters = {
+  category?: string;
+}
 export type Category = {
   slug: string;
   name: string;
