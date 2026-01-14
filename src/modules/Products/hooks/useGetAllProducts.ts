@@ -7,7 +7,7 @@ const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;
 
 export const useGetAllProducts = (filters?: ProductsFilters) => {
-  const { getAll, getCategories } = useProducts();
+  const { getAll } = useProducts();
 
   const {
     data,
@@ -17,17 +17,16 @@ export const useGetAllProducts = (filters?: ProductsFilters) => {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: [reactQueryProductsKey],
+    queryKey: [reactQueryProductsKey, filters?.category],
     queryFn: ({ pageParam = 0 }) =>
-      getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE),
+      getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE, filters?.category),
     getNextPageParam: (lastPage: Product[], allPages) =>
       lastPage.length === PRODUCTS_PER_PAGE ? allPages.length : undefined,
     initialPageParam: 0,
     select: (data) => ({
       ...data,
       pages: data.pages.map((page) =>
-        page.filter((product) => !product.isDeleted
-          && (filters?.category && filters?.category !== "All Categories" ? product.category === filters.category : true))
+        page.filter((product) => !product.isDeleted)
       ),
     }),
   });
