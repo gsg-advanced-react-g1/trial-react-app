@@ -1,5 +1,5 @@
-import type { ProductDto } from '../dto/Products';
-import type { Product } from '../entities/Product';
+import type { ProductDto } from "../dto/Products";
+import type { Product } from "../entities/Product";
 
 export const toProduct = (products: ProductDto[]): Product[] => {
   return products.map((product) => {
@@ -15,6 +15,7 @@ export const toProduct = (products: ProductDto[]): Product[] => {
       rating: product.rating,
       tags: product.tags,
       brand: product.brand,
+      isDeleted: false,
       reviews: product.reviews.map((review) => {
         return {
           rating: review.rating,

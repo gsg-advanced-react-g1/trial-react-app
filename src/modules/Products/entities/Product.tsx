@@ -11,6 +11,7 @@ export type Product = {
   rating: number;
   tags: string[];
   brand: string;
+  isDeleted: boolean;
 };
 
 export type Review = {

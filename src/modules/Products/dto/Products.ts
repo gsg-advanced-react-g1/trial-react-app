@@ -9,6 +9,7 @@ export type ProductDto = {
   discountPercentage: number;
   reviews: ReviewDto[];
   rating: number;
+  isDeleted: boolean;
   tags: string[];
   brand: string;
 };
