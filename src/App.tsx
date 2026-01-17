@@ -24,8 +24,8 @@ function App() {
             <RouterProvider router={router} />
           </ProductsProvider>
         </ReactLenis>
-      </MantineProvider>
-    </QueryClientProvider>
+      </MantineProvider >
+    </QueryClientProvider >
   );
 }
 

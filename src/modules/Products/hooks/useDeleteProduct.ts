@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useProducts } from "..";
 import type { Product } from "../entities/Product";
 
+
+
 export const useDeleteProduct = ({
   onSuccess,
   onError,
@@ -20,14 +22,14 @@ export const useDeleteProduct = ({
   } = useMutation({
     mutationFn: deleteProduct,
     onSuccess: (_, deletedId) => {
-      queryClient.setQueryData(["products"], (oldData: any) => {
+      // Update List Cache with Query Key Filter
+      queryClient.setQueriesData({ queryKey: ["products"] }, (oldData: any) => {
         if (!oldData) return undefined;
-
         return {
           ...oldData,
           pages: oldData.pages.map((page: Product[]) =>
             page.map((product) =>
-              product.id === deletedId
+              String(product.id) === String(deletedId)
                 ? { ...product, isDeleted: true }
                 : product
             )
@@ -36,6 +38,9 @@ export const useDeleteProduct = ({
       });
 
       onSuccess();
+
+      // 3. Update Single Product Cache
+      queryClient.setQueryData(["product", String(deletedId)], null);
     },
     onError: () => {
       onError();
