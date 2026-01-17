@@ -75,8 +75,12 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
           }
           disabled={isLoading || isError}
           className="min-w-[200px]"
-          comboboxProps={{ "data-lenis-prevent": true }}
-          scrollAreaProps={{ "data-lenis-prevent": true }}
+          comboboxProps={
+            { "data-lenis-prevent": true } as React.ComponentProps<"div">
+          }
+          scrollAreaProps={
+            { "data-lenis-prevent": true } as React.ComponentProps<"div">
+          }
           styles={{
             input: {
               backgroundColor: "white",

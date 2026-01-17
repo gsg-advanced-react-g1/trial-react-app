@@ -1,19 +1,21 @@
 import { Button, Text } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
-import { useEffect, useRef, useState } from "react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
 import { useProductModal } from "../hooks/useProductModal.ts";
+import { useFavoriteActions } from "../hooks/useFavoriteActions.ts";
+import { useProductsFilters } from "../hooks/useProductsFilters.ts";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll.ts";
+import { calculateAverageRating, isPrimePick } from "../utils/productUtils.ts";
 import SearchBar from "./components/SearchBar.tsx";
 import ProductCard from "./components/ProductCard.tsx";
 import ProductDetailsModal from "./components/ProductDetailsModal.tsx";
-import type { ProductsFilters } from "../entities/Product.ts";
 import { PulseLoader } from "react-spinners";
 
 export const Products = () => {
-  const [filters, setFilters] = useState<ProductsFilters>({
-    category: "All Categories",
-    search: "",
-  });
+  // Filters hook manages filter state
+  const { filters, setFilters, resetFilters } = useProductsFilters([]);
+
+  // Fetch products with category filter (API-level filtering)
   const {
     products,
     hasNextPage,
@@ -21,6 +23,19 @@ export const Products = () => {
     isFetchingNextPage,
     isLoading,
   } = useGetAllProducts(filters);
+
+  // Apply search filter to fetched products
+  const filteredProducts = (() => {
+    const searchQuery = filters.search?.toLowerCase() || "";
+    if (searchQuery === "") return products;
+    return products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchQuery) ||
+        product.description.toLowerCase().includes(searchQuery),
+    );
+  })();
+
+  // Delete product mutation
   const { deleteProduct } = useDeleteProduct({
     onSuccess: () => {
       console.log("Product deleted successfully");
@@ -30,53 +45,18 @@ export const Products = () => {
     },
   });
 
-  const observerTarget = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const { selectedProduct, isOpen, openModal, closeModal } = useProductModal();
-
-  const toggleFavorite = (productId: string) => {
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(productId)) {
-        newFavorites.delete(productId);
-      } else {
-        newFavorites.add(productId);
-      }
-      return newFavorites;
-    });
-  };
-
-  const calculateAverageRating = (reviews: { rating: number }[]): number => {
-    if (reviews.length === 0) return 0;
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return sum / reviews.length;
-  };
-
-  const filteredProducts = products?.filter((product) => {
-    const q = filters?.search?.toLowerCase() || "";
-    return q === ""
-      ? product
-      : product.name.toLowerCase().includes(q) ||
-          product.description.toLowerCase().includes(q);
+  // Infinite scroll observer
+  const { observerTarget } = useInfiniteScroll({
+    hasNextPage: hasNextPage ?? false,
+    isFetchingNextPage,
+    fetchNextPage,
   });
+
+  // Favorites state management
+  const { isFavorite, toggleFavorite } = useFavoriteActions();
+
+  // Modal state management
+  const { selectedProduct, isOpen, openModal, closeModal } = useProductModal();
 
   return (
     <div className="products-page min-h-screen relative">
@@ -121,9 +101,7 @@ export const Products = () => {
               <Button
                 variant="light"
                 className="!bg-white/10 !text-white hover:!bg-white/20"
-                onClick={() =>
-                  setFilters({ search: "", category: "All Categories" })
-                }
+                onClick={resetFilters}
               >
                 Clear Filters
               </Button>
@@ -132,16 +110,17 @@ export const Products = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
               {filteredProducts.map((product) => {
                 const avgRating = calculateAverageRating(product.reviews);
-                const isFavorite = favorites.has(product.id);
+                const productIsPrimePick = isPrimePick(avgRating);
+                const productIsFavorite = isFavorite(product.id);
 
                 return (
                   <ProductCard
                     key={product.id}
                     product={product}
-                    isFavorite={isFavorite}
-                    onToggleFavorite={toggleFavorite}
-                    onDelete={deleteProduct}
+                    isFavorite={productIsFavorite}
+                    isPrimePick={productIsPrimePick}
                     averageRating={avgRating}
+                    onToggleFavorite={toggleFavorite}
                     onCardClick={openModal}
                   />
                 );
@@ -166,12 +145,17 @@ export const Products = () => {
         product={selectedProduct}
         isOpen={isOpen}
         onClose={closeModal}
-        isFavorite={selectedProduct ? favorites.has(selectedProduct.id) : false}
-        onToggleFavorite={toggleFavorite}
-        onDelete={deleteProduct}
+        isFavorite={selectedProduct ? isFavorite(selectedProduct.id) : false}
+        isPrimePick={
+          selectedProduct
+            ? isPrimePick(calculateAverageRating(selectedProduct.reviews))
+            : false
+        }
         averageRating={
           selectedProduct ? calculateAverageRating(selectedProduct.reviews) : 0
         }
+        onToggleFavorite={toggleFavorite}
+        onDelete={deleteProduct}
       />
     </div>
   );

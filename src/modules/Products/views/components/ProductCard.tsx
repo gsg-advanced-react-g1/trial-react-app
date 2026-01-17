@@ -1,32 +1,30 @@
-import { Badge, Button, Rating, Tooltip, ActionIcon } from "@mantine/core";
-import {
-  IconShoppingCart,
-  IconHeart,
-  IconTrash,
-  IconTags,
-  IconStar,
-} from "@tabler/icons-react";
+import { Badge, Rating, Tooltip } from "@mantine/core";
+import { IconTags } from "@tabler/icons-react";
 import type { Product } from "../../entities/Product";
+import FavoriteButton from "./FavoriteButton";
+import ProductBadges from "./ProductBadges";
 
 type ProductCardProps = {
   product: Product;
   isFavorite: boolean;
-  onToggleFavorite: (productId: string) => void;
-  onDelete: (productId: string) => void;
+  isPrimePick: boolean;
   averageRating: number;
+  onToggleFavorite: (productId: string) => void;
   onCardClick?: (product: Product) => void;
 };
 
+/**
+ * Presentational component for displaying a product card
+ * Receives all data and callbacks via props - contains no business logic
+ */
 export const ProductCard = ({
   product,
   isFavorite,
-  onToggleFavorite,
-  onDelete,
+  isPrimePick,
   averageRating,
+  onToggleFavorite,
   onCardClick,
 }: ProductCardProps) => {
-  const isPrimePick = averageRating >= 4.5;
-
   const handleCardClick = () => {
     onCardClick?.(product);
   };
@@ -34,11 +32,6 @@ export const ProductCard = ({
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleFavorite(product.id);
-  };
-
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onDelete(product.id);
   };
 
   return (
@@ -67,38 +60,18 @@ export const ProductCard = ({
       </div>
 
       {/* Top-Left Badge: Prime Pick / Sale / Out of Stock */}
-      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-        {isPrimePick && product.isAvailable && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-400/95 text-amber-950 text-xs font-semibold shadow-lg backdrop-blur-sm">
-            <IconStar size={14} fill="currentColor" />
-            Prime Pick
-          </span>
-        )}
-        {!product.isAvailable && (
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-500/95 text-white text-xs font-semibold shadow-lg backdrop-blur-sm">
-            Out of Stock
-          </span>
-        )}
-        {product.hasDiscounts && product.isAvailable && (
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-pink-500/95 text-white text-xs font-semibold shadow-lg backdrop-blur-sm">
-            Sale
-          </span>
-        )}
+      <div className="absolute top-4 left-4 z-10">
+        <ProductBadges
+          isPrimePick={isPrimePick}
+          isAvailable={product.isAvailable}
+          hasDiscounts={product.hasDiscounts}
+        />
       </div>
 
       {/* Top-Right Favorite Button */}
-      <ActionIcon
-        variant="filled"
-        radius="xl"
-        size="lg"
-        className="!absolute top-4 right-4 z-10 !bg-white/20 hover:!bg-white/30 backdrop-blur-sm border border-white/30 transition-all duration-200"
-        onClick={handleFavoriteClick}
-        style={{
-          color: isFavorite ? "#ef4444" : "white",
-        }}
-      >
-        <IconHeart size={20} fill={isFavorite ? "currentColor" : "none"} />
-      </ActionIcon>
+      <div className="absolute top-4 right-4 z-10">
+        <FavoriteButton isFavorite={isFavorite} onClick={handleFavoriteClick} />
+      </div>
 
       {/* Bottom Overlay Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5 z-10">

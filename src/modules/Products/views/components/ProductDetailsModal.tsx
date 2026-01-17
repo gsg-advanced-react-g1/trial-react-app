@@ -3,35 +3,41 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ActionIcon, Badge, Button, Rating } from "@mantine/core";
 import {
   IconX,
-  IconHeart,
   IconShoppingCart,
   IconTrash,
   IconTags,
-  IconStar,
   IconPackage,
 } from "@tabler/icons-react";
 import type { Product } from "../../entities/Product";
+import FavoriteButton from "./FavoriteButton";
+import ProductBadges from "./ProductBadges";
 
 type ProductDetailsModalProps = {
   product: Product | null;
   isOpen: boolean;
   onClose: () => void;
   isFavorite: boolean;
+  isPrimePick: boolean;
+  averageRating: number;
   onToggleFavorite: (productId: string) => void;
   onDelete: (productId: string) => void;
   onAddToCart?: (productId: string) => void;
-  averageRating: number;
 };
 
+/**
+ * Presentational component for product details modal
+ * Receives all data and callbacks via props - contains no business logic
+ */
 export const ProductDetailsModal = ({
   product,
   isOpen,
   onClose,
   isFavorite,
+  isPrimePick,
+  averageRating,
   onToggleFavorite,
   onDelete,
   onAddToCart,
-  averageRating,
 }: ProductDetailsModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
@@ -70,8 +76,6 @@ export const ProductDetailsModal = ({
   }, [isOpen, handleKeyDown]);
 
   if (!product) return null;
-
-  const isPrimePick = averageRating >= 4.5;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -155,62 +159,29 @@ export const ProductDetailsModal = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent lg:bg-gradient-to-r" />
 
                 {/* Badges */}
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col gap-1.5 sm:gap-2">
-                  {isPrimePick && product.isAvailable && (
-                    <motion.span
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-amber-400/95 text-amber-950 text-[10px] sm:text-xs font-semibold shadow-lg backdrop-blur-sm"
-                    >
-                      <IconStar
-                        size={12}
-                        fill="currentColor"
-                        className="sm:hidden"
-                      />
-                      <IconStar
-                        size={14}
-                        fill="currentColor"
-                        className="hidden sm:block"
-                      />
-                      Prime Pick
-                    </motion.span>
-                  )}
-                  {!product.isAvailable && (
-                    <span className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-red-500/95 text-white text-[10px] sm:text-xs font-semibold shadow-lg backdrop-blur-sm">
-                      Out of Stock
-                    </span>
-                  )}
-                  {product.hasDiscounts && product.isAvailable && (
-                    <span className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-pink-500/95 text-white text-[10px] sm:text-xs font-semibold shadow-lg backdrop-blur-sm">
-                      Sale
-                    </span>
-                  )}
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <ProductBadges
+                      isPrimePick={isPrimePick}
+                      isAvailable={product.isAvailable}
+                      hasDiscounts={product.hasDiscounts}
+                      size="sm"
+                    />
+                  </motion.div>
                 </div>
 
                 {/* Favorite Button on Image */}
-                <ActionIcon
-                  variant="filled"
-                  radius="xl"
-                  size="lg"
-                  className="!absolute top-3 right-3 sm:top-4 sm:right-4 lg:right-4 z-10 !bg-white/20 hover:!bg-white/30 backdrop-blur-sm border border-white/30 transition-all duration-200"
-                  onClick={handleFavoriteClick}
-                  style={{ color: isFavorite ? "#ef4444" : "white" }}
-                  aria-label={
-                    isFavorite ? "Remove from favorites" : "Add to favorites"
-                  }
-                >
-                  <IconHeart
-                    size={18}
-                    fill={isFavorite ? "currentColor" : "none"}
-                    className="sm:hidden"
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 lg:right-4 z-10">
+                  <FavoriteButton
+                    isFavorite={isFavorite}
+                    onClick={handleFavoriteClick}
+                    size="lg"
                   />
-                  <IconHeart
-                    size={22}
-                    fill={isFavorite ? "currentColor" : "none"}
-                    className="hidden sm:block"
-                  />
-                </ActionIcon>
+                </div>
               </motion.div>
 
               {/* Details Section */}
