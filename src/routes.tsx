@@ -1,22 +1,24 @@
-// routes.ts
 import {
     createRootRoute,
     createRoute,
     createRouter,
-    Outlet,
 } from "@tanstack/react-router";
 import MainLayout from "./MainLayout";
 import { Products } from "./modules/Products/views";
 import Home from "./modules/Home/views";
+import ProductDetails from "./modules/Products/views/ProductDetails";
+import NotFound from "./NotFound";
 
 const rootRoute = createRootRoute({
     component: MainLayout,
+    notFoundComponent: () => <NotFound />,
 });
 
 const productsRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/products",
     component: Products,
+    notFoundComponent: () => <NotFound msg="Product Not Found" path="/products" />,
 });
 
 const homeRoute = createRoute({
@@ -25,7 +27,13 @@ const homeRoute = createRoute({
     component: Home,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, productsRoute]);
+const productDetailRoute = createRoute({
+    getParentRoute: () => productsRoute,
+    path: "/$id",
+    component: ProductDetails,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, productsRoute, productDetailRoute]);
 
 export const router = createRouter({ routeTree });
 

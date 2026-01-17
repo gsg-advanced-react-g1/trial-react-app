@@ -8,8 +8,8 @@ import { useInfiniteScroll } from "../hooks/useInfiniteScroll.ts";
 import { calculateAverageRating, isPrimePick } from "../utils/productUtils.ts";
 import SearchBar from "./components/SearchBar.tsx";
 import ProductCard from "./components/ProductCard.tsx";
-import ProductDetailsModal from "./components/ProductDetailsModal.tsx";
 import { PulseLoader } from "react-spinners";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Products = () => {
   // Filters hook manages filter state
@@ -56,7 +56,17 @@ export const Products = () => {
   const { isFavorite, toggleFavorite } = useFavoriteActions();
 
   // Modal state management
-  const { selectedProduct, isOpen, openModal, closeModal } = useProductModal();
+  // const { selectedProduct, isOpen, openModal, closeModal } = useProductModal();
+
+  const navigate = useNavigate()
+  const handleCardClick = (id: string) => {
+    navigate({
+      to: "/products/$id",
+      params: {
+        id: id,
+      },
+    });
+  }
 
   return (
     <div className="products-page min-h-screen relative">
@@ -121,7 +131,7 @@ export const Products = () => {
                     isPrimePick={productIsPrimePick}
                     averageRating={avgRating}
                     onToggleFavorite={toggleFavorite}
-                    onCardClick={openModal}
+                    onCardClick={() => handleCardClick(product.id)}
                   />
                 );
               })}
@@ -140,7 +150,7 @@ export const Products = () => {
         </div>
       </div>
 
-      {/* Product Details Modal */}
+      {/*       should be deleted -- a separated products details page will fetch the product by its id
       <ProductDetailsModal
         product={selectedProduct}
         isOpen={isOpen}
@@ -156,7 +166,7 @@ export const Products = () => {
         }
         onToggleFavorite={toggleFavorite}
         onDelete={deleteProduct}
-      />
+      /> */}
     </div>
   );
 };
