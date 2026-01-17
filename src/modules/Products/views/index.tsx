@@ -17,7 +17,6 @@ import {
   IconHeart,
   IconEye,
   IconTags,
-
 } from "@tabler/icons-react";
 import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
 import { useEffect, useRef, useState } from "react";
@@ -25,15 +24,18 @@ import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
 import SearchBar from "./components/SearchBar.tsx";
 import type { ProductsFilters } from "../entities/Product.ts";
 import { PulseLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 export const Products = () => {
-
+  const navigate = useNavigate();
   const [filters, setFilters] = useState<ProductsFilters>({
     category: "All Categories",
     search: "",
   });
-  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
+  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading, isError } =
     useGetAllProducts(filters);
+
+
   const { deleteProduct } = useDeleteProduct({
     onSuccess: () => {
       console.log("Product deleted successfully");
@@ -124,8 +126,10 @@ export const Products = () => {
                       transition: "transform 0.2s ease, box-shadow 0.2s ease",
                       position: "relative",
                       overflow: "hidden",
+                      cursor: "pointer",
                     }}
                     className="product-card"
+                    onClick={() => navigate(`/${product.id}`)}
                   >
                     {/* Badges Overlay */}
                     <div
@@ -163,7 +167,10 @@ export const Products = () => {
                         right: 12,
                         zIndex: 2,
                       }}
-                      onClick={() => toggleFavorite(product.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(product.id);
+                      }}
                     >
                       <IconHeart
                         size={18}
@@ -306,6 +313,9 @@ export const Products = () => {
                             size="xl"
                             radius="md"
                             disabled={!product.isAvailable}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
                           >
                             <IconShoppingCart size={20} />
                           </ActionIcon>
@@ -322,6 +332,9 @@ export const Products = () => {
                         leftSection={<IconShoppingCart size={18} />}
                         variant="gradient"
                         gradient={{ from: "blue", to: "cyan", deg: 90 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                       >
                         {product.isAvailable ? "Add to Cart" : "Out of Stock"}
                       </Button>
@@ -333,7 +346,8 @@ export const Products = () => {
                         radius="md"
                         size="md"
                         disabled={!product.isAvailable}
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           deleteProduct(product.id);
                         }}
                       >

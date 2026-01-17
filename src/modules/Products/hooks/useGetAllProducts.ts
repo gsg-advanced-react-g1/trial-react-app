@@ -3,6 +3,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Product } from "../entities/Product";
 import type { ProductsFilters } from "../entities/Product";
 
+
+
 const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;
 
@@ -29,6 +31,7 @@ export const useGetAllProducts = (filters?: ProductsFilters) => {
         page.filter((product) => !product.isDeleted)
       ),
     }),
+    staleTime: 1000 * 60 * 5,
   });
 
   const products = data?.pages.flat() ?? [];

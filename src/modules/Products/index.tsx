@@ -29,6 +29,8 @@ export const useProducts = () => {
   return context;
 };
 
+export { ProductRouter } from '../../Api/ProductRouter';
+
 export const createProductsModule = () => {
   const value = restProducts();
   return {
