@@ -24,10 +24,10 @@ import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
 import SearchBar from "./components/SearchBar.tsx";
 import type { ProductsFilters } from "../entities/Product.ts";
 import { PulseLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Products = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: '/' });
   const [filters, setFilters] = useState<ProductsFilters>({
     category: "All Categories",
     search: "",
@@ -129,7 +129,7 @@ export const Products = () => {
                       cursor: "pointer",
                     }}
                     className="product-card"
-                    onClick={() => navigate(`/${product.id}`)}
+                    onClick={() => navigate({ to: '/$productId', params: { productId: product.id } })}
                   >
                     {/* Badges Overlay */}
                     <div

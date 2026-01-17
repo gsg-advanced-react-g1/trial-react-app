@@ -4,9 +4,8 @@ import { MantineProvider } from '@mantine/core';
 
 import { createProductsModule } from './modules/Products/index.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ProductRouter } from './modules/Products/index.tsx';
-import { BrowserRouter } from 'react-router-dom';
+import { RouterProvider } from '@tanstack/react-router';
+import { router } from './router';
 
 const { Provider: ProductsProvider } = createProductsModule();
 
@@ -16,10 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
         <ProductsProvider>
-          <BrowserRouter>
-            <ReactQueryDevtools />
-            <ProductRouter />
-          </BrowserRouter>
+          <RouterProvider router={router} />
         </ProductsProvider>
       </MantineProvider>
     </QueryClientProvider>

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, getRouteApi } from "@tanstack/react-router";
 import { useGetProductById } from "../hooks/useGetProductById";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
 import {
@@ -30,13 +30,14 @@ import {
 } from "@tabler/icons-react";
 
 export const ProductDetails = () => {
-    const { productId } = useParams<{ productId: string }>();
-    const navigate = useNavigate();
+    const route = getRouteApi('/$productId');
+    const { productId } = route.useParams();
+    const navigate = useNavigate({ from: '/$productId' });
     const { product, isLoading, isError } = useGetProductById(productId || "");
 
     const { deleteProduct, isPending: isDeleting, isSuccess: isDeletedSuccess } = useDeleteProduct({
         onSuccess: () => {
-            navigate("/");
+            navigate({ to: "/" });
         },
         onError: () => {
             console.error("Failed to delete product");
@@ -67,7 +68,7 @@ export const ProductDetails = () => {
                     </Text>
                     <Button
                         leftSection={<IconArrowLeft />}
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate({ to: "/" })}
                         variant="light"
                         size="md"
                     >
@@ -84,7 +85,7 @@ export const ProductDetails = () => {
                 variant="subtle"
                 color="gray"
                 leftSection={<IconArrowLeft size={18} />}
-                onClick={() => navigate("/")}
+                onClick={() => navigate({ to: "/" })}
                 mb="lg"
             >
                 Back to Products
