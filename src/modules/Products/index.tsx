@@ -29,7 +29,6 @@ export const useProducts = () => {
   return context;
 };
 
-
 export const createProductsModule = () => {
   const value = restProducts();
   return {

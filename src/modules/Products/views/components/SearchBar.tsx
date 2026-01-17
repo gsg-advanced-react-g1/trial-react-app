@@ -107,17 +107,6 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
               borderRadius: "12px",
               boxShadow: "0 10px 40px rgba(0, 0, 0, 0.15)",
             },
-            option: {
-              color: "#1e293b",
-              borderRadius: "8px",
-              "&[data-selected]": {
-                backgroundColor: "#a855f7",
-                color: "white",
-              },
-              "&[data-hovered]": {
-                backgroundColor: "#f1f5f9",
-              },
-            },
           }}
         />
       </div>

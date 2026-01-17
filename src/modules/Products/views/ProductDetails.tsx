@@ -4,7 +4,6 @@ import { useGetProductById } from "../hooks/useGetProductById";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
 import {
     Button,
-    Card,
     Container,
     Group,
     Image,
@@ -20,7 +19,6 @@ import {
     Avatar,
     Divider,
     ActionIcon,
-    Tooltip,
 } from "@mantine/core";
 import {
     IconArrowLeft,
@@ -29,15 +27,19 @@ import {
     IconHeart,
     IconShare,
 } from "@tabler/icons-react";
+import { productDetailRoute } from "../../../router";
 
 const ProductDetails = () => {
-    const { productId } = useParams<{ productId: string }>();
+    const { id } = productDetailRoute.useParams();
+    console.log(id);
+
+
     const navigate = useNavigate();
-    const { product, isLoading, isError } = useGetProductById(productId || "");
+    const { product, isLoading, isError } = useGetProductById(id || "");
 
     const { deleteProduct, isPending: isDeleting, isSuccess: isDeletedSuccess } = useDeleteProduct({
         onSuccess: () => {
-            navigate("/");
+            navigate({ to: "/products" });
         },
         onError: () => {
             console.error("Failed to delete product");
@@ -68,11 +70,11 @@ const ProductDetails = () => {
                     </Text>
                     <Button
                         leftSection={<IconArrowLeft />}
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate({ to: "/" })}
                         variant="light"
                         size="md"
                     >
-                        Back to Store
+                        Back to Products
                     </Button>
                 </Stack>
             </Container>
@@ -85,7 +87,7 @@ const ProductDetails = () => {
                 variant="subtle"
                 color="gray"
                 leftSection={<IconArrowLeft size={18} />}
-                onClick={() => navigate("/")}
+                onClick={() => navigate({ to: "/products" })}
                 mb="lg"
             >
                 Back to Products

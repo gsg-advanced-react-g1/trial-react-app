@@ -8,7 +8,7 @@ import { useInfiniteScroll } from "../hooks/useInfiniteScroll.ts";
 import { calculateAverageRating, isPrimePick } from "../utils/productUtils.ts";
 import ProductCard from "./components/ProductCard.tsx";
 import { PulseLoader } from "react-spinners";
-import { useNavigate } from "@tanstack/react-router";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import type { ProductsFilters } from "../entities/Product.tsx";
 import SearchBar from "./components/SearchBar.tsx";
@@ -41,11 +41,10 @@ export const Products = () => {
   const { isFavorite, toggleFavorite } = useFavoriteActions();
 
   const handleCardClick = (id: string) => {
-    navigate({ to: `/products/${id}` });
+    navigate({ to: "/products/$id", params: { id } });
   }
   return (
     <div className="products-page min-h-screen relative">
-
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
@@ -99,6 +98,7 @@ export const Products = () => {
         <div ref={observerTarget} className="h-5 w-full" />
       </div>
     </div>
+
   );
 }
 export default Products;
