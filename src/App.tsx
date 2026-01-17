@@ -1,11 +1,13 @@
-import './App.css';
-import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import "./App.css";
+import "@mantine/core/styles.css";
+import "lenis/dist/lenis.css";
+import { MantineProvider } from "@mantine/core";
+import { ReactLenis } from "lenis/react";
 
-import { createProductsModule } from './modules/Products/index.tsx';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Products } from './modules/Products/views/index.tsx';
+import { createProductsModule } from "./modules/Products/index.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Products } from "./modules/Products/views/index.tsx";
 
 const { Provider: ProductsProvider } = createProductsModule();
 
@@ -14,10 +16,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
-        <ProductsProvider>
-          <ReactQueryDevtools />
-          <Products />
-        </ProductsProvider>
+        <ReactLenis root options={{ autoRaf: true, lerp: 0.08, duration: 1.4 }}>
+          <ProductsProvider>
+            <ReactQueryDevtools />
+            <Products />
+          </ProductsProvider>
+        </ReactLenis>
       </MantineProvider>
     </QueryClientProvider>
   );

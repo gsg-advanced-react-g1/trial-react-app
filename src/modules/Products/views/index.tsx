@@ -1,39 +1,26 @@
-import {
-  Badge,
-  Button,
-  Card,
-  Grid,
-  Group,
-  Image,
-  Text,
-  Stack,
-  Rating,
-  Tooltip,
-  ActionIcon,
-  Paper,
-} from "@mantine/core";
-import {
-  IconShoppingCart,
-  IconHeart,
-  IconEye,
-  IconTags,
-
-} from "@tabler/icons-react";
+import { Button, Text } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
 import { useEffect, useRef, useState } from "react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
+import { useProductModal } from "../hooks/useProductModal.ts";
 import SearchBar from "./components/SearchBar.tsx";
+import ProductCard from "./components/ProductCard.tsx";
+import ProductDetailsModal from "./components/ProductDetailsModal.tsx";
 import type { ProductsFilters } from "../entities/Product.ts";
 import { PulseLoader } from "react-spinners";
 
 export const Products = () => {
-
   const [filters, setFilters] = useState<ProductsFilters>({
     category: "All Categories",
     search: "",
   });
-  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-    useGetAllProducts(filters);
+  const {
+    products,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useGetAllProducts(filters);
   const { deleteProduct } = useDeleteProduct({
     onSuccess: () => {
       console.log("Product deleted successfully");
@@ -52,7 +39,7 @@ export const Products = () => {
           fetchNextPage();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (observerTarget.current) {
@@ -63,6 +50,7 @@ export const Products = () => {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const { selectedProduct, isOpen, openModal, closeModal } = useProductModal();
 
   const toggleFavorite = (productId: string) => {
     setFavorites((prev) => {
@@ -84,291 +72,107 @@ export const Products = () => {
 
   const filteredProducts = products?.filter((product) => {
     const q = filters?.search?.toLowerCase() || "";
-    return q === "" ? product : product.name.toLowerCase().includes(q) || product.description.toLowerCase().includes(q);
+    return q === ""
+      ? product
+      : product.name.toLowerCase().includes(q) ||
+          product.description.toLowerCase().includes(q);
   });
 
   return (
-    <div className="flex flex-col gap-7 min-h-screen">
-      <div className="shrink-0">
-        <SearchBar setFilters={setFilters} filters={filters} />
+    <div className="products-page min-h-screen relative">
+      {/* Modern background with neon accents */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+
+        {/* Neon glow accents */}
+        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[120px] translate-x-1/3" />
+        <div className="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-cyan-500/15 rounded-full blur-[150px] translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-fuchsia-500/10 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4" />
+
+        {/* Subtle noise overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
-      <div className="flex-1 min-h-0">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <PulseLoader color="#000" size={15} />
-          </div>
-        ) : filteredProducts?.length === 0 ? (
-          <div className="flex flex-col justify-center items-center h-64 gap-4">
-            <Text size="xl" fw={500} c="dimmed">No products found</Text>
-            <Button variant="light" onClick={() => setFilters({ search: "", category: "All Categories" })}>
-              Clear Filters
-            </Button>
-          </div>
-        ) : (
-          <Grid gutter="lg">
-            {filteredProducts.map((product) => {
-              const avgRating = calculateAverageRating(product.reviews);
-              const isFavorite = favorites.has(product.id);
 
-              return (
-                <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4, lg: 3 }}>
-                  <Card
-                    shadow="sm"
-                    padding="lg"
-                    radius="md"
-                    withBorder
-                    style={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
-                    className="product-card"
-                  >
-                    {/* Badges Overlay */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 12,
-                        left: 12,
-                        zIndex: 2,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 8,
-                      }}
-                    >
-                      {!product.isAvailable && (
-                        <Badge color="red" variant="filled" size="lg">
-                          Out of Stock
-                        </Badge>
-                      )}
-                      {product.hasDiscounts && product.isAvailable && (
-                        <Badge color="pink" variant="filled" size="lg">
-                          Sale
-                        </Badge>
-                      )}
-                    </div>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col gap-6 p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto">
+        {/* Search Bar */}
+        <div className="shrink-0">
+          <SearchBar setFilters={setFilters} filters={filters} />
+        </div>
 
-                    {/* Favorite Icon */}
-                    <ActionIcon
-                      variant="filled"
-                      color={isFavorite ? "red" : "gray"}
-                      radius="xl"
-                      size="lg"
-                      style={{
-                        position: "absolute",
-                        top: 12,
-                        right: 12,
-                        zIndex: 2,
-                      }}
-                      onClick={() => toggleFavorite(product.id)}
-                    >
-                      <IconHeart
-                        size={18}
-                        fill={isFavorite ? "currentColor" : "none"}
-                      />
-                    </ActionIcon>
+        {/* Products Grid */}
+        <div className="flex-1 min-h-0">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <PulseLoader color="#a855f7" size={15} />
+            </div>
+          ) : filteredProducts?.length === 0 ? (
+            <div className="flex flex-col justify-center items-center h-64 gap-4 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10">
+              <Text size="xl" fw={500} className="!text-white/60">
+                No products found
+              </Text>
+              <Button
+                variant="light"
+                className="!bg-white/10 !text-white hover:!bg-white/20"
+                onClick={() =>
+                  setFilters({ search: "", category: "All Categories" })
+                }
+              >
+                Clear Filters
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+              {filteredProducts.map((product) => {
+                const avgRating = calculateAverageRating(product.reviews);
+                const isFavorite = favorites.has(product.id);
 
-                    {/* Image Section */}
-                    <Card.Section>
-                      <div style={{ position: "relative", overflow: "hidden" }}>
-                        <Image
-                          src={product.image}
-                          height={220}
-                          alt={product.name}
-                          fit="cover"
-                          style={{
-                            transition: "transform 0.3s ease",
-                          }}
-                          className="product-image"
-                        />
-                        {/* Quick View Overlay */}
-                        <div
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            background:
-                              "linear-gradient(to top, rgba(0,0,0,0.6), transparent)",
-                            display: "flex",
-                            alignItems: "flex-end",
-                            justifyContent: "center",
-                            opacity: 0,
-                            transition: "opacity 0.3s ease",
-                            padding: "1rem",
-                          }}
-                          className="quick-view-overlay"
-                        >
-                          <Button
-                            variant="white"
-                            leftSection={<IconEye size={16} />}
-                            size="sm"
-                          >
-                            Quick View
-                          </Button>
-                        </div>
-                      </div>
-                    </Card.Section>
+                return (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isFavorite={isFavorite}
+                    onToggleFavorite={toggleFavorite}
+                    onDelete={deleteProduct}
+                    averageRating={avgRating}
+                    onCardClick={openModal}
+                  />
+                );
+              })}
 
-                    {/* Content Section */}
-                    <Stack gap="xs" mt="md" style={{ flexGrow: 1 }}>
-                      {/* Brand & Category */}
-                      <Group justify="space-between" gap="xs">
-                        <Badge color="gray" variant="light" size="sm">
-                          {product.brand}
-                        </Badge>
-                        <Badge color="blue" variant="dot" size="sm">
-                          {product.category}
-                        </Badge>
-                      </Group>
-
-                      {/* Product Name */}
-                      <Tooltip label={product.name} openDelay={500}>
-                        <Text
-                          fw={600}
-                          size="md"
-                          lineClamp={2}
-                          style={{ minHeight: 48 }}
-                        >
-                          {product.name}
-                        </Text>
-                      </Tooltip>
-
-                      {/* Rating */}
-                      {product.reviews.length > 0 && (
-                        <Group gap={6}>
-                          <Rating
-                            value={avgRating}
-                            fractions={2}
-                            readOnly
-                            size="sm"
-                          />
-                          <Text size="sm" c="dimmed">
-                            ({product.reviews.length})
-                          </Text>
-                        </Group>
-                      )}
-
-                      {/* Description */}
-                      <Text
-                        size="sm"
-                        c="dimmed"
-                        lineClamp={2}
-                        style={{ flexGrow: 1 }}
-                      >
-                        {product.description}
-                      </Text>
-
-                      {/* Tags */}
-                      {product.tags.length > 0 && (
-                        <Group gap={4}>
-                          <IconTags size={14} color="gray" />
-                          {product.tags.slice(0, 2).map((tag, index) => (
-                            <Badge
-                              key={index}
-                              size="xs"
-                              variant="outline"
-                              color="gray"
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                          {product.tags.length > 2 && (
-                            <Badge size="xs" variant="outline" color="gray">
-                              +{product.tags.length - 2}
-                            </Badge>
-                          )}
-                        </Group>
-                      )}
-
-                      {/* Price Section */}
-                      <Paper
-                        p="xs"
-                        radius="md"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                          marginTop: "auto",
-                        }}
-                      >
-                        <Group justify="space-between" align="center">
-                          <div>
-                            <Text size="xs" c="white" opacity={0.9}>
-                              Price
-                            </Text>
-                            <Text fw={700} size="xl" c="white">
-                              ${product.price.toFixed(2)}
-                            </Text>
-                          </div>
-                          <ActionIcon
-                            variant="white"
-                            size="xl"
-                            radius="md"
-                            disabled={!product.isAvailable}
-                          >
-                            <IconShoppingCart size={20} />
-                          </ActionIcon>
-                        </Group>
-                      </Paper>
-
-                      {/* Action Button */}
-                      <Button
-                        color="blue"
-                        fullWidth
-                        radius="md"
-                        size="md"
-                        disabled={!product.isAvailable}
-                        leftSection={<IconShoppingCart size={18} />}
-                        variant="gradient"
-                        gradient={{ from: "blue", to: "cyan", deg: 90 }}
-                      >
-                        {product.isAvailable ? "Add to Cart" : "Out of Stock"}
-                      </Button>
-
-                      {/*  Delete Button */}
-                      <Button
-                        color="red"
-                        fullWidth
-                        radius="md"
-                        size="md"
-                        disabled={!product.isAvailable}
-                        onClick={() => {
-                          deleteProduct(product.id);
-                        }}
-                      >
-                        Delete Product
-                      </Button>
-                    </Stack>
-
-                    {/* Inline Styles for Hover Effects */}
-                    <style>{`
-                  .product-card:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-                  }
-                  .product-card:hover .product-image {
-                    transform: scale(1.05);
-                  }
-                  .product-card:hover .quick-view-overlay {
-                    opacity: 1;
-                  }
-                `}</style>
-                  </Card>
-                </Grid.Col>
-              );
-            })}
-            {isFetchingNextPage && (
-              <Grid.Col span={{ base: 12 }}>
-                <div className="flex justify-center p-4">
-                  <PulseLoader color="#000" size={15} />
+              {/* Loading More Indicator */}
+              {isFetchingNextPage && (
+                <div className="col-span-full flex justify-center p-4">
+                  <PulseLoader color="#a855f7" size={15} />
                 </div>
-              </Grid.Col>
-            )}
-            <div ref={observerTarget} style={{ width: "100%", height: 20 }} />
-          </Grid>
-        )}
+              )}
+
+              {/* Intersection Observer Target */}
+              <div ref={observerTarget} className="col-span-full h-5 w-full" />
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Product Details Modal */}
+      <ProductDetailsModal
+        product={selectedProduct}
+        isOpen={isOpen}
+        onClose={closeModal}
+        isFavorite={selectedProduct ? favorites.has(selectedProduct.id) : false}
+        onToggleFavorite={toggleFavorite}
+        onDelete={deleteProduct}
+        averageRating={
+          selectedProduct ? calculateAverageRating(selectedProduct.reviews) : 0
+        }
+      />
     </div>
   );
 };
