@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { useProducts } from "..";
 import type { Product } from "../entities/Product";
 
@@ -23,7 +23,7 @@ export const useDeleteProduct = ({
     mutationFn: deleteProduct,
     onSuccess: (_, deletedId) => {
       // Update List Cache with Query Key Filter
-      queryClient.setQueriesData({ queryKey: ["products"] }, (oldData: any) => {
+      queryClient.setQueriesData({ queryKey: ["products"] }, (oldData: InfiniteData<Product[]> | undefined) => {
         if (!oldData) return undefined;
         return {
           ...oldData,

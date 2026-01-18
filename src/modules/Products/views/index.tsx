@@ -20,7 +20,7 @@ export const Products = () => {
     category: "All Categories",
     search: "",
   });
-  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading, isError } =
+  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useGetAllProducts(filters);
 
   const filteredProducts = (() => {
