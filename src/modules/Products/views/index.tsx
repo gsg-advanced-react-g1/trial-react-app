@@ -1,7 +1,7 @@
 import { Button, Text } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts.ts";
-import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
-import { useProductModal } from "../hooks/useProductModal.ts";
+// import { useDeleteProduct } from "../hooks/useDeleteProduct.ts";
+// import { useProductModal } from "../hooks/useProductModal.ts";
 import { useFavoriteActions } from "../hooks/useFavoriteActions.ts";
 import { useProductsFilters } from "../hooks/useProductsFilters.ts";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll.ts";
@@ -36,14 +36,14 @@ export const Products = () => {
   })();
 
   // Delete product mutation
-  const { deleteProduct } = useDeleteProduct({
-    onSuccess: () => {
-      console.log("Product deleted successfully");
-    },
-    onError: () => {
-      console.error("Error deleting product:");
-    },
-  });
+  // const { deleteProduct } = useDeleteProduct({
+  //   onSuccess: () => {
+  //     console.log("Product deleted successfully");
+  //   },
+  //   onError: () => {
+  //     console.error("Error deleting product:");
+  //   },
+  // });
 
   // Infinite scroll observer
   const { observerTarget } = useInfiniteScroll({
