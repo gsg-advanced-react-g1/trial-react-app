@@ -1,16 +1,19 @@
-import React from "react";
-import { Input, Select } from "@mantine/core";
-import { IconSearch, IconCategory } from "@tabler/icons-react";
-import type { ProductsFilters } from "../../entities/Product";
-import { useGetCategories } from "../../hooks/useGetCategories";
+import React from 'react'
+import { Input, Select } from '@mantine/core';
+import { IconCategory, IconSearch } from '@tabler/icons-react';
+import type { ProductsFilters } from '../../entities/Product';
+import { useGetCategories } from '../../hooks/useGetCategories';
 
 type SearchBarProps = {
   setFilters: React.Dispatch<React.SetStateAction<ProductsFilters>>;
   filters: ProductsFilters;
 };
 
+
 const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
-  const { data: categories, isLoading, isError } = useGetCategories();
+
+  const { data: categories, isLoading, isError
+  } = useGetCategories();
 
   const handleCategoryChange = (value: string | null) => {
     setFilters((prev) => ({
@@ -18,7 +21,6 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
       category: value ?? "All Categories",
     }));
   };
-
   const handleSearchChange = (value: string) => {
     setFilters((prev) => ({
       ...prev,
@@ -114,4 +116,4 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
   );
 };
 
-export default SearchBar;
+export default SearchBar

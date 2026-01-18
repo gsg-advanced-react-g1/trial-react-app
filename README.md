@@ -32,10 +32,7 @@ It serves as a central place for:
 
 - **Momen Alsawafiri**<br>
   GitHub: [@momen-x](https://github.com/momen-x)
-  
-- **Afnan Alzeiti**<br>
-  GitHub: [@afnanfayez](https://github.com/afnanfayez)
-  
+
 ---
 
 ## 🧠 What We’re Working On
