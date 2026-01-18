@@ -27,12 +27,12 @@ import { PulseLoader } from "react-spinners";
 import { useNavigate } from "@tanstack/react-router";
 
 export const Products = () => {
-  const navigate = useNavigate({ from: '/' });
+  const navigate = useNavigate({ from: '/products' });
   const [filters, setFilters] = useState<ProductsFilters>({
     category: "All Categories",
     search: "",
   });
-  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading, isError } =
+  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useGetAllProducts(filters);
 
 
@@ -129,7 +129,7 @@ export const Products = () => {
                       cursor: "pointer",
                     }}
                     className="product-card"
-                    onClick={() => navigate({ to: '/$productId', params: { productId: product.id } })}
+                    onClick={() => navigate({ to: '/products/$productId', params: { productId: product.id } })}
                   >
                     {/* Badges Overlay */}
                     <div
