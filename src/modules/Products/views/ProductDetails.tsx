@@ -23,9 +23,10 @@ import {
   IconArrowLeft,
   IconTrash,
   IconShoppingCart,
-  IconHeart,
   IconShare,
 } from "@tabler/icons-react";
+import { FavoriteButton } from "./components/FavoriteButton";
+import { ProductBadges } from "./components/ProductBadges";
 
 export const ProductDetails = () => {
   const route = getRouteApi('/products/$productId');
@@ -115,18 +116,10 @@ export const ProductDetails = () => {
                 className="hover:scale-105"
               />
 
-              <Stack
-                pos="absolute"
-                top={20}
-                left={20}
-              >
-                {product.hasDiscounts && (
-                  <Badge color="pink" size="lg" variant="filled">Sale</Badge>
-                )}
-                {!product.isAvailable && (
-                  <Badge color="red" size="lg" variant="filled">Out of Stock</Badge>
-                )}
-              </Stack>
+              <ProductBadges
+                hasDiscounts={product.hasDiscounts}
+                isAvailable={product.isAvailable}
+              />
             </Center>
           </Grid.Col>
 
@@ -143,9 +136,7 @@ export const ProductDetails = () => {
                   </Title>
                 </div>
                 <Group>
-                  <ActionIcon variant="light" color="gray" size="lg" radius="xl">
-                    <IconHeart size={20} />
-                  </ActionIcon>
+                  <FavoriteButton productId={product.id} />
                   <ActionIcon variant="light" color="gray" size="lg" radius="xl">
                     <IconShare size={20} />
                   </ActionIcon>
