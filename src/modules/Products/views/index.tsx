@@ -27,14 +27,18 @@ import { PulseLoader } from "react-spinners";
 import { useNavigate } from "@tanstack/react-router";
 
 export const Products = () => {
-  const navigate = useNavigate({ from: '/products' });
+  const navigate = useNavigate({ from: "/products" });
   const [filters, setFilters] = useState<ProductsFilters>({
     category: "All Categories",
     search: "",
   });
-  const { products, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-    useGetAllProducts(filters);
-
+  const {
+    products,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useGetAllProducts(filters);
 
   const { deleteProduct } = useDeleteProduct({
     onSuccess: () => {
@@ -54,7 +58,7 @@ export const Products = () => {
           fetchNextPage();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (observerTarget.current) {
@@ -86,7 +90,10 @@ export const Products = () => {
 
   const filteredProducts = products?.filter((product) => {
     const q = filters?.search?.toLowerCase() || "";
-    return q === "" ? product : product.name.toLowerCase().includes(q) || product.description.toLowerCase().includes(q);
+    return q === ""
+      ? product
+      : product.name.toLowerCase().includes(q) ||
+          product.description.toLowerCase().includes(q);
   });
 
   return (
@@ -101,8 +108,15 @@ export const Products = () => {
           </div>
         ) : filteredProducts?.length === 0 ? (
           <div className="flex flex-col justify-center items-center h-64 gap-4">
-            <Text size="xl" fw={500} c="dimmed">No products found</Text>
-            <Button variant="light" onClick={() => setFilters({ search: "", category: "All Categories" })}>
+            <Text size="xl" fw={500} c="dimmed">
+              No products found
+            </Text>
+            <Button
+              variant="light"
+              onClick={() =>
+                setFilters({ search: "", category: "All Categories" })
+              }
+            >
               Clear Filters
             </Button>
           </div>
@@ -113,7 +127,10 @@ export const Products = () => {
               const isFavorite = favorites.has(product.id);
 
               return (
-                <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4, lg: 3 }}>
+                <Grid.Col
+                  key={product.id}
+                  span={{ base: 12, sm: 6, md: 4, lg: 3 }}
+                >
                   <Card
                     shadow="sm"
                     padding="lg"
@@ -129,7 +146,12 @@ export const Products = () => {
                       cursor: "pointer",
                     }}
                     className="product-card"
-                    onClick={() => navigate({ to: '/products/$productId', params: { productId: product.id } })}
+                    onClick={() =>
+                      navigate({
+                        to: "/products/$productId",
+                        params: { productId: product.id },
+                      })
+                    }
                   >
                     {/* Badges Overlay */}
                     <div
@@ -313,7 +335,9 @@ export const Products = () => {
                             size="xl"
                             radius="md"
                             disabled={!product.isAvailable}
-                            onClick={(e) => {
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
                               e.stopPropagation();
                             }}
                           >
