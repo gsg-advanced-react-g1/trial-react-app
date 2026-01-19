@@ -90,7 +90,6 @@ export const ProductCard = ({
           </h3>
         </Tooltip>
 
-        {/* Secondary line: Brand + Category */}
         <p className="text-white/70 text-sm mb-3 line-clamp-1">
           {product.brand} • {product.category}
         </p>
@@ -109,7 +108,7 @@ export const ProductCard = ({
               <span>{product.tags.length} tags</span>
             </div>
           )}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center {/* Secondary line: Brand + Category */} gap-1">
             <span
               className={`w-2 h-2 rounded-full ${product.isAvailable ? "bg-emerald-400" : "bg-red-400"}`}
             />
