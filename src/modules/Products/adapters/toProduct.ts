@@ -14,6 +14,7 @@ const mapProductDto = (product: ProductDto): Product => {
     image: product.thumbnail,
     isAvailable: product.stock > 0,
     hasDiscounts: false,
+    isPrimePick: false,
     rating: product.rating,
     tags: product.tags ?? [],
     brand: product.brand,
