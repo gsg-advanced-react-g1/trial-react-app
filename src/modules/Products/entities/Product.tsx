@@ -8,6 +8,7 @@ export type Product = {
   image: string;
   isAvailable: boolean;
   hasDiscounts: boolean;
+  isPrimePick: boolean;
   reviews: Review[];
   rating: number;
   tags: string[];

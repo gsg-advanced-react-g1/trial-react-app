@@ -2,6 +2,7 @@
 import { useParams, useNavigate } from "@tanstack/react-router";
 import { useGetProductById } from "../hooks/useGetProductById";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
+import { useFavoriteActions } from "../hooks/useFavoriteActions";
 import {
   Button,
   Container,
@@ -38,7 +39,7 @@ const ProductDetails = () => {
 
   const navigate = useNavigate();
   const { product, isLoading, isError } = useGetProductById(id || "");
-
+  const { isFavorite, toggleFavorite } = useFavoriteActions();
   const { deleteProduct, isPending: isDeleting, isSuccess: isDeletedSuccess } = useDeleteProduct({
     onSuccess: () => {
       navigate({ to: "/products" });
@@ -324,6 +325,7 @@ const ProductDetails = () => {
               />
 
               <ProductBadges
+                isPrimePick={product.isPrimePick}
                 hasDiscounts={product.hasDiscounts}
                 isAvailable={product.isAvailable}
               />
@@ -343,7 +345,13 @@ const ProductDetails = () => {
                   </Title>
                 </div>
                 <Group>
-                  <FavoriteButton productId={product.id} />
+                  <FavoriteButton
+                    isFavorite={isFavorite(product.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorite(product.id);
+                    }}
+                  />
                   <ActionIcon variant="light" color="gray" size="lg" radius="xl">
                     <IconShare size={20} />
                   </ActionIcon>
