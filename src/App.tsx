@@ -17,6 +17,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <MantineProvider>
         <ReactLenis root options={{ autoRaf: true, lerp: 0.08, duration: 1.4 }}>
           <ProductsProvider>
