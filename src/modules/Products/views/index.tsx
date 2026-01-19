@@ -8,7 +8,7 @@ import { useInfiniteScroll } from "../hooks/useInfiniteScroll.ts";
 import { calculateAverageRating, isPrimePick } from "../utils/productUtils.ts";
 import ProductCard from "./components/ProductCard.tsx";
 import { PulseLoader } from "react-spinners";
-import { Outlet, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import type { ProductsFilters } from "../entities/Product.tsx";
 import SearchBar from "./components/SearchBar.tsx";

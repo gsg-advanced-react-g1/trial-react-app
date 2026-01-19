@@ -24,10 +24,6 @@ type ProductDetailsModalProps = {
   onAddToCart?: (productId: string) => void;
 };
 
-/**
- * Presentational component for product details modal
- * Receives all data and callbacks via props - contains no business logic
- */
 export const ProductDetailsModal = ({
   product,
   isOpen,
@@ -42,7 +38,6 @@ export const ProductDetailsModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
-  // Handle ESC key
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -52,20 +47,17 @@ export const ProductDetailsModal = ({
     [onClose],
   );
 
-  // Focus trap and body scroll lock
   useEffect(() => {
     if (isOpen) {
       previousActiveElement.current = document.activeElement as HTMLElement;
       document.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
 
-      // Focus the modal
       setTimeout(() => modalRef.current?.focus(), 100);
     } else {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
 
-      // Return focus
       previousActiveElement.current?.focus();
     }
 
@@ -131,7 +123,9 @@ export const ProductDetailsModal = ({
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="relative w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[90vh] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-none sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+              e.stopPropagation()
+            }
           >
             {/* Close Button */}
             <button

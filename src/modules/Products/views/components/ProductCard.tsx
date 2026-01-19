@@ -13,10 +13,6 @@ type ProductCardProps = {
   onCardClick?: (product: Product) => void;
 };
 
-/**
- * Presentational component for displaying a product card
- * Receives all data and callbacks via props - contains no business logic
- */
 export const ProductCard = ({
   product,
   isFavorite,
@@ -29,7 +25,7 @@ export const ProductCard = ({
     onCardClick?.(product);
   };
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onToggleFavorite(product.id);
   };
@@ -48,18 +44,16 @@ export const ProductCard = ({
       }}
       aria-label={`View details for ${product.name}`}
     >
-      {/* Hero Image - Full card background */}
       <div className="absolute inset-0">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {/* Dark gradient overlay at bottom for text readability */}
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
 
-      {/* Top-Left Badge: Prime Pick / Sale / Out of Stock */}
       <div className="absolute top-4 left-4 z-10">
         <ProductBadges
           isPrimePick={isPrimePick}
@@ -68,14 +62,11 @@ export const ProductCard = ({
         />
       </div>
 
-      {/* Top-Right Favorite Button */}
       <div className="absolute top-4 right-4 z-10">
         <FavoriteButton isFavorite={isFavorite} onClick={handleFavoriteClick} />
       </div>
 
-      {/* Bottom Overlay Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-        {/* Price - Prominent */}
         <div className="mb-2">
           <span className="text-white/70 text-sm font-medium">List: </span>
           <span className="text-white text-2xl font-bold tracking-tight">
@@ -83,7 +74,6 @@ export const ProductCard = ({
           </span>
         </div>
 
-        {/* Title */}
         <Tooltip label={product.name} openDelay={500}>
           <h3 className="text-white text-lg font-bold leading-tight line-clamp-1 mb-1">
             {product.name}
@@ -94,7 +84,6 @@ export const ProductCard = ({
           {product.brand} • {product.category}
         </p>
 
-        {/* Meta Row: Rating, Tags count, Stock */}
         <div className="flex items-center gap-4 mb-4 text-white/80 text-sm">
           {product.reviews.length > 0 && (
             <div className="flex items-center gap-1.5">
@@ -116,7 +105,6 @@ export const ProductCard = ({
           </div>
         </div>
 
-        {/* Tags Preview */}
         {product.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {product.tags.slice(0, 3).map((tag, index) => (
@@ -142,7 +130,6 @@ export const ProductCard = ({
         )}
       </div>
 
-      {/* Hover enhancement glow */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[24px] ring-1 ring-white/10" />
     </div>
   );
