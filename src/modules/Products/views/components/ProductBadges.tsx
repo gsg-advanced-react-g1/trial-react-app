@@ -1,42 +1,62 @@
-import { Badge, Stack } from "@mantine/core";
+import { IconStar } from "@tabler/icons-react";
 
-interface ProductBadgesProps {
-  hasDiscounts?: boolean;
-  isAvailable?: boolean;
-  position?: "absolute" | "relative";
-  top?: number;
-  left?: number;
-}
+type ProductBadgesProps = {
+  isPrimePick: boolean;
+  isAvailable: boolean;
+  hasDiscounts: boolean;
+  size?: "sm" | "md";
+};
 
+const badgeBaseClasses =
+  "inline-flex items-center rounded-full font-semibold shadow-lg backdrop-blur-sm";
+
+const sizeClasses = {
+  sm: "px-2 py-1 text-[10px] sm:px-3 sm:py-1.5 sm:text-xs gap-1 sm:gap-1.5",
+  md: "px-3 py-1.5 text-xs gap-1.5",
+};
+
+/**
+ * Reusable presentational component for product status badges
+ * (Prime Pick, Out of Stock, Sale)
+ * Contains zero business logic
+ */
 export const ProductBadges = ({
-  hasDiscounts = false,
-  isAvailable = true,
-  position = "absolute",
-  top = 20,
-  left = 20,
+  isPrimePick,
+  isAvailable,
+  hasDiscounts,
+  size = "md",
 }: ProductBadgesProps) => {
-  // Only render if there are badges to show
-  if (!hasDiscounts && isAvailable) {
-    return null;
-  }
+  const classes = `${badgeBaseClasses} ${sizeClasses[size]}`;
 
   return (
-    <Stack
-      pos={position}
-      top={top}
-      left={left}
-      gap="xs"
-    >
-      {hasDiscounts && (
-        <Badge color="pink" size="lg" variant="filled">
-          Sale
-        </Badge>
+    <div className="flex flex-col gap-1.5 sm:gap-2">
+      {isPrimePick && isAvailable && (
+        <span className={`${classes} bg-amber-400/95 text-amber-950`}>
+          {size === "sm" ? (
+            <>
+              <IconStar size={12} fill="currentColor" className="sm:hidden" />
+              <IconStar
+                size={14}
+                fill="currentColor"
+                className="hidden sm:block"
+              />
+            </>
+          ) : (
+            <IconStar size={14} fill="currentColor" />
+          )}
+          Prime Pick
+        </span>
       )}
       {!isAvailable && (
-        <Badge color="red" size="lg" variant="filled">
+        <span className={`${classes} bg-red-500/95 text-white`}>
           Out of Stock
-        </Badge>
+        </span>
       )}
-    </Stack>
+      {hasDiscounts && isAvailable && (
+        <span className={`${classes} bg-pink-500/95 text-white`}>Sale</span>
+      )}
+    </div>
   );
 };
+
+export default ProductBadges;
