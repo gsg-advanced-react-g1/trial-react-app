@@ -1,5 +1,5 @@
 
-import { useParams, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useGetProductById } from "../hooks/useGetProductById";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
 import { useFavoriteActions } from "../hooks/useFavoriteActions";
