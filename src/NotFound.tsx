@@ -1,19 +1,22 @@
+import { Button, Container, Stack, Text, Title } from '@mantine/core'
 import { Link } from '@tanstack/react-router'
 
-const NotFound = ({ msg, path }: { msg?: string, path?: string }) => {
+const NotFound = ({ msg = "Page Not Found", path = "/" }: { msg?: string, path?: string }) => {
     return (
-        <div className='flex flex-col items-center justify-center h-screen bg-gray-100 gap-10'>
-            <div className='flex flex-col gap-2'>
-                <h1 className='text-4xl font-bold text-center text-gray-600'>404</h1>
-                <h2 className='text-center text-gray-600 text-2xl'> Page Not Found</h2>
-            </div>
-            <Link to={path || "/"}>
-                <button className='px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600'>
-                    {msg || "Go to Home"}
-                </button>
-            </Link>
-        </div>
+        <Container size="md">
+            <Center h="100vh">
+                <Stack align="center">
+                    <Title order={1} size="10rem" fw={900} c="dimmed" opacity={0.2}>404</Title>
+                    <Title order={2}>{msg}</Title>
+                    <Text c="dimmed">The page you are looking for does not exist or has been moved.</Text>
+                    <Button component={Link} to={path} size="md" variant="light" mt="xl">
+                        Back to safety
+                    </Button>
+                </Stack>
+            </Center>
+        </Container>
     )
 }
 
+import { Center } from '@mantine/core'
 export default NotFound
