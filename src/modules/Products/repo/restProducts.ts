@@ -16,7 +16,7 @@ export const restProducts = (): ProductsRepository => {
       }
       return response.json().then((data) => toProduct(data.products));
     },
-    getSpecialOffers: async (minDiscountPercentage = 10, limit = 8) => {
+    getSpecialOffers: async (minDiscountPercentage = 10, limit = 12) => {
       const response = await fetch(`${Base_URL}?limit=0&skip=0`);
       if (!response.ok) throw new Error("Failed to fetch special offers");
 

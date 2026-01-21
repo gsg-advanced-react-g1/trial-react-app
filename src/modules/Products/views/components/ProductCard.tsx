@@ -6,21 +6,25 @@ import ProductBadges from "./ProductBadges";
 
 type ProductCardProps = {
   product: Product;
-  isFavorite: boolean;
-  isPrimePick: boolean;
+  isFavorite?: boolean;
+  isPrimePick?: boolean;
   averageRating: number;
-  onToggleFavorite: (productId: string) => void;
+  onToggleFavorite?: (productId: string) => void;
   onCardClick?: (product: Product) => void;
+  isConcise?: boolean
 };
 
 export const ProductCard = ({
   product,
-  isFavorite,
-  isPrimePick,
+  isFavorite = false,
+  isPrimePick = false,
   averageRating,
-  onToggleFavorite,
-  onCardClick,
+  onToggleFavorite = () => { },
+  onCardClick = () => { },
+  isConcise = false,
 }: ProductCardProps) => {
+
+
   const handleCardClick = () => {
     onCardClick?.(product);
   };
@@ -33,7 +37,7 @@ export const ProductCard = ({
   return (
     <div
       onClick={handleCardClick}
-      className="group relative w-full h-[420px] rounded-[24px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 bg-gradient-to-b from-slate-800 to-slate-900 cursor-pointer"
+      className={`group relative w-full rounded-[24px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 bg-gradient-to-b from-slate-800 to-slate-900 cursor-pointer ${isConcise ? "h-[300px]" : "h-[420px]"}`}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -54,17 +58,18 @@ export const ProductCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
 
-      <div className="absolute top-4 left-4 z-10">
+      {!isConcise && <div className="absolute top-4 left-4 z-10">
         <ProductBadges
           isPrimePick={isPrimePick}
           isAvailable={product.isAvailable}
           hasDiscounts={product.hasDiscounts}
         />
       </div>
-
-      <div className="absolute top-4 right-4 z-10">
+      }
+      {!isConcise && <div className="absolute top-4 right-4 z-10">
         <FavoriteButton isFavorite={isFavorite} onClick={handleFavoriteClick} />
       </div>
+      }
 
       <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
         <div className="mb-2">
@@ -80,10 +85,11 @@ export const ProductCard = ({
           </h3>
         </Tooltip>
 
-        <p className="text-white/70 text-sm mb-3 line-clamp-1">
-          {product.brand} • {product.category}
-        </p>
-
+        {!isConcise &&
+          <p className="text-white/70 text-sm mb-3 line-clamp-1">
+            {product.brand} • {product.category}
+          </p>
+        }
         <div className="flex items-center gap-4 mb-4 text-white/80 text-sm">
           {product.reviews.length > 0 && (
             <div className="flex items-center gap-1.5">
@@ -91,21 +97,25 @@ export const ProductCard = ({
               <span className="text-white/60">({product.reviews.length})</span>
             </div>
           )}
-          {product.tags.length > 0 && (
-            <div className="flex items-center gap-1">
-              <IconTags size={14} className="text-white/60" />
-              <span>{product.tags.length} tags</span>
-            </div>
-          )}
-          <div className="flex items-center {/* Secondary line: Brand + Category */} gap-1">
-            <span
-              className={`w-2 h-2 rounded-full ${product.isAvailable ? "bg-emerald-400" : "bg-red-400"}`}
-            />
-            <span>{product.isAvailable ? "In Stock" : "Sold Out"}</span>
-          </div>
+          {!isConcise &&
+            <>
+              {product.tags.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <IconTags size={14} className="text-white/60" />
+                  <span>{product.tags.length} tags</span>
+                </div>
+              )}
+              <div className="flex items-center {/* Secondary line: Brand + Category */} gap-1">
+                <span
+                  className={`w-2 h-2 rounded-full ${product.isAvailable ? "bg-emerald-400" : "bg-red-400"}`}
+                />
+                <span>{product.isAvailable ? "In Stock" : "Sold Out"}</span>
+              </div>
+            </>
+          }
         </div>
 
-        {product.tags.length > 0 && (
+        {!isConcise && product.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {product.tags.slice(0, 3).map((tag, index) => (
               <Badge

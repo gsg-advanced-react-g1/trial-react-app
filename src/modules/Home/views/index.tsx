@@ -1,16 +1,24 @@
 import { useFeatureFlag } from "../../FeatureFlags";
 import SpecialOffersContainer from "../components/SpecialOffersContainer";
+import { useSpecialOffersProducts } from "../../Products/hooks/useSpecialOffersProducts";
+import type { Product } from "../../Products/entities/Product";
+import ProductCard from "../../Products/views/components/ProductCard";
+import { calculateAverageRating } from "../../Products/utils/productUtils";
 
 const Home = () => {
-
   const isSpecialOffersEnabled = useFeatureFlag("isSpecialOffersEnabled");
+  const { data: products } = useSpecialOffersProducts(10, 5);
 
   return <>
     <h2 className="text-2xl">Welcome Home</h2>
     {
       isSpecialOffersEnabled &&
       <SpecialOffersContainer title="Special Offers" subtitle="Check out our special offers">
-        <p>No special offers available at the moment</p>
+        {
+          products?.map((item: Product) => (
+            <ProductCard product={item} averageRating={calculateAverageRating(item.reviews)} isConcise={true} />
+          ))
+        }
       </SpecialOffersContainer>
     }
   </>;
