@@ -78,7 +78,7 @@ function ReviewsSection({
 
       <Stack gap="lg">
         {reviews.map((review, index) => (
-          <Paper key={index} withBorder p="lg" radius="md" bg="gray.0">
+          <Paper key={index} withBorder p="lg" radius="md" >
             <Group mb="sm">
               <Avatar color="blue" radius="xl">
                 {review.reviewer?.name?.slice(0, 2)?.toUpperCase() ?? "NA"}
@@ -184,7 +184,6 @@ const ProductDetails = () => {
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Center
               p="xl"
-              bg="gray.0.5"
               style={{
                 borderRadius: "var(--mantine-radius-lg)",
                 minHeight: "400px",

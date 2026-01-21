@@ -19,6 +19,7 @@ export const ProductsProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProducts = () => {
   const context = useContext(ProductsContext);
 
@@ -29,6 +30,7 @@ export const useProducts = () => {
   return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const createProductsModule = () => {
   const value = restProducts();
   return {

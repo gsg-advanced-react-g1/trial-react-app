@@ -14,11 +14,11 @@ import ProductCard from "./components/ProductCard";
 
 const Background = () => (
   <div className="fixed inset-0 -z-10 overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
-    <div className="absolute left-0 top-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/20 blur-[150px]" />
-    <div className="absolute right-0 top-1/3 h-[500px] w-[500px] translate-x-1/3 rounded-full bg-blue-500/15 blur-[120px]" />
-    <div className="absolute bottom-0 left-1/3 h-[600px] w-[600px] translate-y-1/2 rounded-full bg-cyan-500/15 blur-[150px]" />
-    <div className="absolute bottom-0 right-0 h-[400px] w-[400px] translate-x-1/4 translate-y-1/4 rounded-full bg-fuchsia-500/10 blur-[100px]" />
+    <div className="absolute inset-0 bg-linear-to-br from-slate-950 via-slate-900 to-slate-950" />
+    <div className="absolute left-0 top-0 h-150 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/20 blur-[150px]" />
+    <div className="absolute right-0 top-1/3 h-125 w-125 translate-x-1/3 rounded-full bg-blue-500/15 blur-[120px]" />
+    <div className="absolute bottom-0 left-1/3 h-150 w-150 translate-y-1/2 rounded-full bg-cyan-500/15 blur-[150px]" />
+    <div className="absolute bottom-0 right-0 h-100 w-100 translate-x-1/4 translate-y-1/4 rounded-full bg-fuchsia-500/10 blur-[100px]" />
     <div
       className="absolute inset-0 opacity-[0.015]"
       style={{
@@ -89,7 +89,7 @@ export const Products = () => {
     <div className="products-page relative min-h-screen">
       <Background />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1600px] flex-col gap-6 p-4 sm:p-6 lg:p-8">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-400 flex-col gap-6 p-4 sm:p-6 lg:p-8">
         <div className="shrink-0">
           <SearchBar setFilters={setFilters} filters={filters} />
         </div>
