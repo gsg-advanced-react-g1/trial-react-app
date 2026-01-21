@@ -1,7 +1,6 @@
 import { Badge, Rating, Tooltip } from "@mantine/core";
 import { IconTags } from "@tabler/icons-react";
 import type { Product } from "../../entities/Product";
-import ProductBadges from "./ProductBadges";
 
 type ProductCardProps = {
     product: Product;
@@ -13,9 +12,7 @@ type ProductCardProps = {
 
 export const SpecialOfferCard = ({
     product,
-    isPrimePick,
     averageRating,
-
     onCardClick,
 }: ProductCardProps) => {
     const handleCardClick = () => {

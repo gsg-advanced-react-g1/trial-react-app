@@ -23,7 +23,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconArrowLeft, IconShare, IconShoppingCart, IconTrash } from "@tabler/icons-react";
-import { ProductBadges } from "./components/ProductBadges";
+import ProductBadges from "./components/ProductBadges";
 import { FavoriteButton } from "./components/FavoriteButton";
 
 function BackToProductsButton({ onClick }: { onClick: () => void }) {
@@ -207,6 +207,7 @@ const ProductDetails = () => {
                 isPrimePick={product.isPrimePick}
                 hasDiscounts={product.hasDiscounts}
                 isAvailable={product.isAvailable}
+                discountPercentage={product.discountPercentage}
               />
             </Center>
           </Grid.Col>

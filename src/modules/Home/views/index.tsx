@@ -1,10 +1,10 @@
 import { useFeatureFlag } from "../../FeatureFlags";
 import SpecialOffersContainer from "../components/SpecialOffersContainer";
-import { useSpecialOffersProducts } from "../../Products/hooks/useSpecialOffersProducts";
 import type { Product } from "../../Products/entities/Product";
 import ProductCard from "../../Products/views/components/ProductCard";
 import { calculateAverageRating } from "../../Products/utils/productUtils";
 import { useNavigate } from "@tanstack/react-router";
+import { useSpecialOffersProducts } from "../../Products/hooks/useSpecialOffersProducts";
 
 const Home = () => {
   const isSpecialOffersEnabled = useFeatureFlag("isSpecialOffersEnabled");

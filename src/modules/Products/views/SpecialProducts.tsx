@@ -3,8 +3,8 @@
 import { Grid } from "@mantine/core";
 import { calculateAverageRating } from "../utils/productUtils";
 import ProductCard from "./components/ProductCard";
-import { useSpecialOffersProducts } from "../hooks/useSpecialOffersProducts";
 import type { Product } from "../entities/Product";
+import { useSpecialOffersProducts } from "../hooks/useSpecialOffersProducts";
 
 const SpecialProducts = () => {
   const { data: products } = useSpecialOffersProducts(10, 30);

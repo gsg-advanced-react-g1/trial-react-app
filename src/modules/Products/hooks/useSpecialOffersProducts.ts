@@ -9,3 +9,4 @@ export const useSpecialOffersProducts = (minDiscountPercentage = 10, limit = 12)
         staleTime: 1000 * 60 * 5,
     });
 };
+

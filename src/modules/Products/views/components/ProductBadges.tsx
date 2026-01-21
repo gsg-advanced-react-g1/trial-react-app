@@ -17,7 +17,7 @@ const sizeClasses = {
   md: "px-3 py-1.5 text-xs gap-1.5",
 };
 
-export const ProductBadges = ({
+const ProductBadges = ({
   isPrimePick,
   isAvailable,
   hasDiscounts,
