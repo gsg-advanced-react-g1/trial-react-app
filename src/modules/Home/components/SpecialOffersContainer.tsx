@@ -6,8 +6,8 @@ const SpecialOffersContainer = ({
     subtitle,
     children,
 }: {
-    title?: string;
-    subtitle?: string;
+    title: string;
+    subtitle: string;
     children: React.ReactNode;
 }) => {
 

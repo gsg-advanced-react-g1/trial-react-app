@@ -16,6 +16,18 @@ export const restProducts = (): ProductsRepository => {
       }
       return response.json().then((data) => toProduct(data.products));
     },
+    getSpecialOffers: async (minDiscountPercentage = 10, limit = 8) => {
+      const response = await fetch(`${Base_URL}?limit=0&skip=0`);
+      if (!response.ok) throw new Error("Failed to fetch special offers");
+
+      const data = await response.json();
+      const products = toProduct(data.products);
+
+      return products
+        .filter((p) => (p.discountPercentage ?? 0) >= minDiscountPercentage)
+        .sort((a, b) => (b.discountPercentage ?? 0) - (a.discountPercentage ?? 0))
+        .slice(0, limit);
+    },
     getProductById: async (id: string): Promise<Product | undefined> => {
       const response = await fetch(`${Base_URL}/${id}`);
       if (!response.ok) {
