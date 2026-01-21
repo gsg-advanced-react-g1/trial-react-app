@@ -39,10 +39,8 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
         onChange={(e) => handleSearchChange(e.target.value)}
         styles={{
           input: {
-            backgroundColor: "white",
             borderColor: "#1e293b",
             borderWidth: "2px",
-            color: "#1e293b",
             fontSize: "15px",
             height: "48px",
             borderRadius: "12px",
@@ -76,7 +74,7 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
             handleCategoryChange(selectedValue as string)
           }
           disabled={isLoading || isError}
-          className="min-w-[200px]"
+          className="min-w-50"
           comboboxProps={
             { "data-lenis-prevent": true } as React.ComponentProps<"div">
           }
@@ -85,10 +83,8 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
           }
           styles={{
             input: {
-              backgroundColor: "white",
               borderColor: "#1e293b",
               borderWidth: "2px",
-              color: "#1e293b",
               fontSize: "15px",
               height: "48px",
               borderRadius: "12px",
@@ -103,7 +99,6 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
               color: "#64748b",
             },
             dropdown: {
-              backgroundColor: "white",
               borderColor: "#1e293b",
               borderWidth: "2px",
               borderRadius: "12px",

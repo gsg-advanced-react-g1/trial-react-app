@@ -1,21 +1,11 @@
 import { useEffect, useRef } from "react";
 
 type UseInfiniteScrollOptions = {
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
-  threshold?: number;
+  hasNextPage: boolean;isFetchingNextPage: boolean;fetchNextPage: () => void;threshold?: number;
 };
 
-/**
- * Hook for managing infinite scroll with IntersectionObserver
- * Separates infinite scroll logic from UI components
- */
 export const useInfiniteScroll = ({
-  hasNextPage,
-  isFetchingNextPage,
-  fetchNextPage,
-  threshold = 0.1,
+  hasNextPage,isFetchingNextPage,fetchNextPage,threshold = 0.1,
 }: UseInfiniteScrollOptions) => {
   const observerTarget = useRef<HTMLDivElement>(null);
 
