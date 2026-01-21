@@ -58,14 +58,15 @@ export const ProductCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
 
-      {!isConcise && <div className="absolute top-4 left-4 z-10">
+      <div className="absolute top-4 left-4 z-10">
         <ProductBadges
           isPrimePick={isPrimePick}
           isAvailable={product.isAvailable}
           hasDiscounts={product.hasDiscounts}
+          discountPercentage={product.discountPercentage}
         />
       </div>
-      }
+
       {!isConcise && <div className="absolute top-4 right-4 z-10">
         <FavoriteButton isFavorite={isFavorite} onClick={handleFavoriteClick} />
       </div>

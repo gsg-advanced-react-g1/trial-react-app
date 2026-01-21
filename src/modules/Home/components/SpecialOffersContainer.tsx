@@ -1,5 +1,6 @@
-import { Button, Text, ThemeIcon } from "@mantine/core";
+import { Text, ThemeIcon } from "@mantine/core";
 import { IconBolt, IconChevronRight } from "@tabler/icons-react";
+import { Link } from "@tanstack/react-router";
 
 const SpecialOffersContainer = ({
     title,
@@ -12,7 +13,7 @@ const SpecialOffersContainer = ({
 }) => {
 
     return (
-        <section className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
+        <section className="mt-6 overflow-hidden rounded-2xl shadow-2xl">
             <div className="p-5 sm:p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-start gap-3">
@@ -30,17 +31,10 @@ const SpecialOffersContainer = ({
                         </div>
                     </div>
 
-                    <Button
-                        radius="xl"
-                        variant="subtle"
-                        color="gray"
-                        rightSection={<IconChevronRight size={16} />}
-                        onClick={() => {
-                            console.log("View all offers");
-                        }}
-                    >
+                    <Link to="/products/special-products" className="flex items-center gap-2">
                         View all
-                    </Button>
+                        <IconChevronRight size={16} />
+                    </Link>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5 mt-5">

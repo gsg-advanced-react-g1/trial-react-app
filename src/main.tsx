@@ -5,20 +5,21 @@ import App from "./App.tsx";
 import { ThemeProvider } from "./modules/Theme/index.tsx";
 import { FeatureFlagProvider } from "./modules/FeatureFlags/index.tsx";
 
-const start = () => {
+const start = async () => {
+  const res = await fetch(`${import.meta.env.BASE_URL}config.json`);
+  if (!res.ok) throw new Error("Failed to load config.json");
+  const config = await res.json();
 
-  fetch("./config.json").then((response) => response.json()).then((config) => {
-    const root = createRoot(document.getElementById("root")!);
-    root.render(
-      <StrictMode>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <FeatureFlagProvider value={config}>
-            <App />
-          </FeatureFlagProvider>
-        </ThemeProvider>
-      </StrictMode>
-    );
-  })
-}
+  const root = createRoot(document.getElementById("root")!);
+  root.render(
+    <StrictMode>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <FeatureFlagProvider value={config}>
+          <App />
+        </FeatureFlagProvider>
+      </ThemeProvider>
+    </StrictMode>
+  );
+};
 
 start();

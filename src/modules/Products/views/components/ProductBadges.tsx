@@ -1,9 +1,11 @@
+import { Badge } from "@mantine/core";
 import { IconStar } from "@tabler/icons-react";
 
 type ProductBadgesProps = {
   isPrimePick: boolean;
   isAvailable: boolean;
   hasDiscounts: boolean;
+  discountPercentage: number;
   size?: "sm" | "md";
 };
 
@@ -15,21 +17,24 @@ const sizeClasses = {
   md: "px-3 py-1.5 text-xs gap-1.5",
 };
 
-/**
- * Reusable presentational component for product status badges
- * (Prime Pick, Out of Stock, Sale)
- * Contains zero business logic
- */
 export const ProductBadges = ({
   isPrimePick,
   isAvailable,
   hasDiscounts,
+  discountPercentage,
   size = "md",
 }: ProductBadgesProps) => {
   const classes = `${badgeBaseClasses} ${sizeClasses[size]}`;
 
   return (
-    <div className="flex flex-col gap-1.5 sm:gap-2">
+    <div className="flex justify-between items-center gap-2">
+      <Badge
+        color="red"
+        variant="filled"
+        className="shadow"
+      >
+        -{Math.round(discountPercentage)}%
+      </Badge>
       {isPrimePick && isAvailable && (
         <span className={`${classes} bg-amber-400/95 text-amber-950`}>
           {size === "sm" ? (
@@ -44,7 +49,7 @@ export const ProductBadges = ({
           ) : (
             <IconStar size={14} fill="currentColor" />
           )}
-          Prime Pick
+
         </span>
       )}
       {!isAvailable && (
