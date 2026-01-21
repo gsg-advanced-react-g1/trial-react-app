@@ -19,13 +19,10 @@ const Header = () => {
 
   return (
     <header
-      className="shadow-lg fixed top-0 left-0 right-0 z-50 flex items-center justify-between  ml-3 mr-3 rounded-xl p-3 h-16"
-      //  bg-white dark:bg-slate-800
-    >
+      className="sticky top-0 left-0 right-0 z-50 mb-3 flex items-center justify-between rounded-lg p-3 shadow-xl backdrop-blur-lg " >
+
       <Link to="/" className="flex items-center">
-        <span className="font-bold text-lg flex items-center gap-2 cursor-pointer"
-        //  text-slate-800 dark:text-white
-        >
+        <span className="font-bold text-lg flex items-center gap-2 cursor-pointer">
           <IconBuildingStore size={24} />
           Ecommerce
         </span>
@@ -38,11 +35,8 @@ const Header = () => {
               <Link
                 key={nav.label}
                 to={nav.href}
-                className={`hover:text-black dark:hover:text-white transition-all duration-300 ${
-                  isActive
-                    ? "text-black dark:text-white"
-                    : "text-gray-500 dark:text-gray-400"
-                }`}
+                className={`hover:text-black dark:hover:text-white transition-all duration-300 
+                  ${isActive ? "border-b-1" : ""}`}
               >
                 {nav.label}
               </Link>
@@ -53,8 +47,8 @@ const Header = () => {
       <div className="flex items-center gap-5">
         <ModeToggleBtn />
         <div className="flex items-center gap-3">
-          <Button>Login</Button>
-          <Button>Register</Button>
+          <Button variant="outline">Login</Button>
+          <Button variant="">Register</Button>
         </div>
       </div>
     </header>

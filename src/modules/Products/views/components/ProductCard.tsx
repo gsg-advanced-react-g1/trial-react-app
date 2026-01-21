@@ -37,7 +37,7 @@ export const ProductCard = ({
   return (
     <div
       onClick={handleCardClick}
-      className={`group relative w-full rounded-[24px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 bg-gradient-to-b from-slate-800 to-slate-900 cursor-pointer ${isConcise ? "h-[300px]" : "h-[420px]"}`}
+      className={`group relative rounded-xl overflow-hidden shadow-lg cursor-pointer ${isConcise ? "h-[300px]" : "h-[420px]"}`}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -46,13 +46,12 @@ export const ProductCard = ({
           handleCardClick();
         }
       }}
-      aria-label={`View details for ${product.name}`}
     >
       <div className="absolute inset-0">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 overflow-hidden"
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />

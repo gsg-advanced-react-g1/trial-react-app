@@ -8,7 +8,7 @@ export function ModeToggleBtn() {
     <Menu shadow="md" width={200} position="bottom-end">
       <Menu.Target>
         <ActionIcon
-          variant="outline"
+          variant="default"
           size="lg"
           radius="md"
           aria-label="Toggle theme"

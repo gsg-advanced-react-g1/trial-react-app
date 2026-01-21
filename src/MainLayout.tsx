@@ -4,9 +4,7 @@ import Header from './components/Header'
 const MainLayout = () => {
     return (
         <div>
-            <div className='mb-11.25'>
-                <Header />
-            </div>
+            <Header />
             <div className='min-h-screen'>
                 <Outlet />
             </div>
