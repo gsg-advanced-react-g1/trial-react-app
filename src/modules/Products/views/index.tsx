@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Grid, Loader } from "@mantine/core";
-import { PulseLoader } from "react-spinners";
+import { Grid } from "@mantine/core";
 
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { useFavoriteActions } from "../hooks/useFavoriteActions";
@@ -11,11 +10,12 @@ import { calculateAverageRating, isPrimePick } from "../utils/productUtils";
 import type { ProductsFilters } from "../entities/Product";
 import SearchBar from "./components/SearchBar";
 import ProductCard from "./components/ProductCard";
-
+import ProductGridSkeleton from "./components/skeletons/ProductGridSkeleton";
+import InfiniteScrollSkeleton from "./components/skeletons/InfiniteScrollSkeleton";
 
 function filterProducts<T extends { name: string; description: string }>(
   products: T[],
-  search?: string
+  search?: string,
 ) {
   const q = search?.trim().toLowerCase() ?? "";
   if (!q) return products;
@@ -26,15 +26,6 @@ function filterProducts<T extends { name: string; description: string }>(
     return name.includes(q) || desc.includes(q);
   });
 }
-
-const InitialLoading = () => (
-  <div className="flex h-full w-full items-center justify-center">
-    <div className="flex flex-col items-center gap-4">
-      <Loader size="xl" color="blue" type="dots" />
-      <h3 className="text-xl font-bold">Loading Products</h3>
-    </div>
-  </div>
-);
 
 export const Products = () => {
   const navigate = useNavigate();
@@ -56,12 +47,12 @@ export const Products = () => {
 
   const filteredProducts = useMemo(
     () => filterProducts(products, filters.search),
-    [products, filters.search]
+    [products, filters.search],
   );
 
   const handleCardClick = useCallback(
     (id: string) => navigate({ to: "/products/$id", params: { id } }),
-    [navigate]
+    [navigate],
   );
 
   const { observerTarget } = useInfiniteScroll({
@@ -79,7 +70,7 @@ export const Products = () => {
 
         <div className="flex-1 min-h-0">
           {isLoading ? (
-            <InitialLoading />
+            <ProductGridSkeleton count={8} />
           ) : (
             <Grid gutter="lg" className="h-full">
               {filteredProducts.map((product) => {
@@ -103,13 +94,7 @@ export const Products = () => {
                 );
               })}
 
-              {isFetchingNextPage && (
-                <Grid.Col span={12}>
-                  <div className="flex justify-center p-4">
-                    <PulseLoader color="#000" size={15} />
-                  </div>
-                </Grid.Col>
-              )}
+              {isFetchingNextPage && <InfiniteScrollSkeleton count={4} />}
             </Grid>
           )}
         </div>

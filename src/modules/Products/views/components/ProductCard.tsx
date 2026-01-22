@@ -11,7 +11,7 @@ type ProductCardProps = {
   averageRating: number;
   onToggleFavorite?: (productId: string) => void;
   onCardClick?: (product: Product) => void;
-  isConcise?: boolean
+  isConcise?: boolean;
 };
 
 export const ProductCard = ({
@@ -19,17 +19,15 @@ export const ProductCard = ({
   isFavorite = false,
   isPrimePick = false,
   averageRating,
-  onToggleFavorite = () => { },
-  onCardClick = () => { },
+  onToggleFavorite = () => {},
+  onCardClick = () => {},
   isConcise = false,
 }: ProductCardProps) => {
-
-
   const handleCardClick = () => {
     onCardClick?.(product);
   };
 
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     onToggleFavorite(product.id);
   };
@@ -66,10 +64,14 @@ export const ProductCard = ({
         />
       </div>
 
-      {!isConcise && <div className="absolute top-4 right-4 z-10">
-        <FavoriteButton isFavorite={isFavorite} onClick={handleFavoriteClick} />
-      </div>
-      }
+      {!isConcise && (
+        <div className="absolute top-4 right-4 z-10">
+          <FavoriteButton
+            isFavorite={isFavorite}
+            onClick={handleFavoriteClick}
+          />
+        </div>
+      )}
 
       <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
         <div className="mb-2">
@@ -85,11 +87,11 @@ export const ProductCard = ({
           </h3>
         </Tooltip>
 
-        {!isConcise &&
+        {!isConcise && (
           <p className="text-white/70 text-sm mb-3 line-clamp-1">
             {product.brand} • {product.category}
           </p>
-        }
+        )}
         <div className="flex items-center gap-4 mb-4 text-white/80 text-sm">
           {product.reviews.length > 0 && (
             <div className="flex items-center gap-1.5">
@@ -97,7 +99,7 @@ export const ProductCard = ({
               <span className="text-white/60">({product.reviews.length})</span>
             </div>
           )}
-          {!isConcise &&
+          {!isConcise && (
             <>
               {product.tags.length > 0 && (
                 <div className="flex items-center gap-1">
@@ -112,7 +114,7 @@ export const ProductCard = ({
                 <span>{product.isAvailable ? "In Stock" : "Sold Out"}</span>
               </div>
             </>
-          }
+          )}
         </div>
 
         {!isConcise && product.tags.length > 0 && (

@@ -3,7 +3,7 @@ import { IconHeart } from "@tabler/icons-react";
 
 type FavoriteButtonProps = {
   isFavorite: boolean;
-  onClick: (e: React.MouseEvent<any>) => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
   size?: "sm" | "md" | "lg";
   className?: string;
 };
