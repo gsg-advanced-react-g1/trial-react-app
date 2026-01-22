@@ -48,7 +48,7 @@ const Header = () => {
         <ModeToggleBtn />
         <div className="flex items-center gap-3">
           <Button variant="outline">Login</Button>
-          <Button variant="">Register</Button>
+          <Button variant="filled">Register</Button>
         </div>
       </div>
     </header>
