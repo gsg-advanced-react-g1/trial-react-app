@@ -6,10 +6,6 @@ const DEFAULT_FILTERS: ProductsFilters = {
   search: "",
 };
 
-/**
- * Hook for managing product filters and deriving filtered products
- * Separates filtering/search business logic from UI components
- */
 export const useProductsFilters = (products: Product[]) => {
   const [filters, setFilters] = useState<ProductsFilters>(DEFAULT_FILTERS);
 

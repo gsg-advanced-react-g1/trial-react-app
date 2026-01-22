@@ -9,6 +9,7 @@ import { Products } from "./modules/Products/views";
 import Home from "./modules/Home/views";
 import ProductDetails from "./modules/Products/views/ProductDetails";
 import NotFound from "./NotFound";
+import SpecialProducts from "./modules/Products/views/SpecialProducts";
 
 const rootRoute = createRootRoute({
     component: MainLayout,
@@ -21,30 +22,33 @@ const homeRoute = createRoute({
     component: Home,
 });
 
-// /products layout (ONLY outlet)
 const productsRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/products",
     component: () => <Outlet />,
 });
 
-// /products (index)
 const productsIndexRoute = createRoute({
     getParentRoute: () => productsRoute,
     path: "/",
     component: Products,
 });
 
-// /products/$id (details)
 export const productDetailRoute = createRoute({
     getParentRoute: () => productsRoute,
-    path: "$id", // ✅ no leading slash
+    path: "$id",
     component: ProductDetails,
+});
+
+export const SpecialProductsRoute = createRoute({
+    getParentRoute: () => productsRoute,
+    path: "special-products",
+    component: SpecialProducts,
 });
 
 const routeTree = rootRoute.addChildren([
     homeRoute,
-    productsRoute.addChildren([productsIndexRoute, productDetailRoute]),
+    productsRoute.addChildren([productsIndexRoute, SpecialProductsRoute, productDetailRoute]),
 ]);
 
 export const router = createRouter({ routeTree });

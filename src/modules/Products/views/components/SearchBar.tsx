@@ -37,27 +37,6 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
         className="flex-1 sm:flex-[0.65]"
         value={filters?.search}
         onChange={(e) => handleSearchChange(e.target.value)}
-        styles={{
-          input: {
-            borderColor: "#1e293b",
-            borderWidth: "2px",
-            fontSize: "15px",
-            height: "48px",
-            borderRadius: "12px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-            "&::placeholder": {
-              color: "#94a3b8",
-            },
-            "&:focus": {
-              borderColor: "#a855f7",
-              boxShadow:
-                "0 0 0 3px rgba(168, 85, 247, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08)",
-            },
-          },
-          section: {
-            color: "#64748b",
-          },
-        }}
       />
       <div className="flex gap-3 justify-end">
         <Select
@@ -81,30 +60,6 @@ const SearchBar = ({ setFilters, filters }: SearchBarProps) => {
           scrollAreaProps={
             { "data-lenis-prevent": true } as React.ComponentProps<"div">
           }
-          styles={{
-            input: {
-              borderColor: "#1e293b",
-              borderWidth: "2px",
-              fontSize: "15px",
-              height: "48px",
-              borderRadius: "12px",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-              "&:focus": {
-                borderColor: "#a855f7",
-                boxShadow:
-                  "0 0 0 3px rgba(168, 85, 247, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08)",
-              },
-            },
-            section: {
-              color: "#64748b",
-            },
-            dropdown: {
-              borderColor: "#1e293b",
-              borderWidth: "2px",
-              borderRadius: "12px",
-              boxShadow: "0 10px 40px rgba(0, 0, 0, 0.15)",
-            },
-          }}
         />
       </div>
     </div>
