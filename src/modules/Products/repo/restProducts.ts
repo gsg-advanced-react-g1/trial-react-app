@@ -16,6 +16,14 @@ export const restProducts = (): ProductsRepository => {
       }
       return response.json().then((data) => toProduct(data.products));
     },
+    search: async (query: string, limit = 0, skip = 0): Promise<Product[]> => {
+      const url = `${Base_URL}/search?q=${encodeURIComponent(query)}&limit=${limit}&skip=${skip}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to search products");
+      }
+      return response.json().then((data) => toProduct(data.products));
+    },
     getSpecialOffers: async (minDiscountPercentage = 10, limit = 12) => {
       const response = await fetch(`${Base_URL}?limit=0&skip=0`);
       if (!response.ok) throw new Error("Failed to fetch special offers");

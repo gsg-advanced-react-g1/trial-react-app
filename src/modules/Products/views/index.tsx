@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Grid, Loader } from "@mantine/core";
 import { PulseLoader } from "react-spinners";
@@ -11,21 +11,6 @@ import { calculateAverageRating, isPrimePick } from "../utils/productUtils";
 import type { ProductsFilters } from "../entities/Product";
 import SearchBar from "./components/SearchBar";
 import ProductCard from "./components/ProductCard";
-
-
-function filterProducts<T extends { name: string; description: string }>(
-  products: T[],
-  search?: string
-) {
-  const q = search?.trim().toLowerCase() ?? "";
-  if (!q) return products;
-
-  return products.filter((p) => {
-    const name = p.name?.toLowerCase() ?? "";
-    const desc = p.description?.toLowerCase() ?? "";
-    return name.includes(q) || desc.includes(q);
-  });
-}
 
 const InitialLoading = () => (
   <div className="flex h-full w-full items-center justify-center">
@@ -54,11 +39,6 @@ export const Products = () => {
 
   const { isFavorite, toggleFavorite } = useFavoriteActions();
 
-  const filteredProducts = useMemo(
-    () => filterProducts(products, filters.search),
-    [products, filters.search]
-  );
-
   const handleCardClick = useCallback(
     (id: string) => navigate({ to: "/products/$id", params: { id } }),
     [navigate]
@@ -82,7 +62,7 @@ export const Products = () => {
             <InitialLoading />
           ) : (
             <Grid gutter="lg" className="h-full">
-              {filteredProducts.map((product) => {
+              {products.map((product) => {
                 const avgRating = calculateAverageRating(product.reviews);
                 const productIsPrimePick = isPrimePick(avgRating);
 
