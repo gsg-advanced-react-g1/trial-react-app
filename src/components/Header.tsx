@@ -1,5 +1,5 @@
 import { Button, Group } from "@mantine/core";
-import { Link, useMatchRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { ModeToggleBtn } from "../modules/Theme/Views/ModeToggleBtn";
 import { IconBuildingStore } from "@tabler/icons-react";
 
@@ -15,7 +15,6 @@ const navs = [
 ];
 
 const Header = () => {
-  const matchRoute = useMatchRoute();
 
   return (
     <header
@@ -30,13 +29,13 @@ const Header = () => {
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <Group className="flex items-center justify-center gap-8">
           {navs.map((nav) => {
-            const isActive = !!matchRoute({ to: nav.href });
             return (
               <Link
                 key={nav.label}
                 to={nav.href}
-                className={`hover:text-black dark:hover:text-white transition-all duration-300 
-                  ${isActive ? "border-b-1" : ""}`}
+                className="hover:text-black dark:hover:text-white transition-all duration-300"
+                activeProps={{ className: "border-b-1" }}
+                inactiveProps={{ className: "" }}
               >
                 {nav.label}
               </Link>
