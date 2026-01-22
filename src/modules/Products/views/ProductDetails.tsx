@@ -22,9 +22,15 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconArrowLeft, IconShare, IconShoppingCart, IconTrash } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconShare,
+  IconShoppingCart,
+  IconTrash,
+} from "@tabler/icons-react";
 import ProductBadges from "./components/ProductBadges";
 import { FavoriteButton } from "./components/FavoriteButton";
+import ProductDetailsSkeleton from "./components/skeletons/ProductDetailsSkeleton";
 
 function BackToProductsButton({ onClick }: { onClick: () => void }) {
   return (
@@ -48,9 +54,15 @@ function NotFoundState({ onBack }: { onBack: () => void }) {
           Product not found.
         </Text>
         <Text c="dimmed">
-          The product you are looking for might have been removed or is temporarily unavailable.
+          The product you are looking for might have been removed or is
+          temporarily unavailable.
         </Text>
-        <Button leftSection={<IconArrowLeft />} onClick={onBack} variant="light" size="md">
+        <Button
+          leftSection={<IconArrowLeft />}
+          onClick={onBack}
+          variant="light"
+          size="md"
+        >
           Back to Products
         </Button>
       </Stack>
@@ -78,7 +90,7 @@ function ReviewsSection({
 
       <Stack gap="lg">
         {reviews.map((review, index) => (
-          <Paper key={index} withBorder p="lg" radius="md" >
+          <Paper key={index} withBorder p="lg" radius="md">
             <Group mb="sm">
               <Avatar color="blue" radius="xl">
                 {review.reviewer?.name?.slice(0, 2)?.toUpperCase() ?? "NA"}
@@ -147,7 +159,7 @@ const ProductDetails = () => {
       if (!product) return;
       toggleFavorite(product.id);
     },
-    [product, toggleFavorite]
+    [product, toggleFavorite],
   );
 
   if (!productId) {
@@ -163,11 +175,7 @@ const ProductDetails = () => {
   }
 
   if (isLoading) {
-    return (
-      <Center h="100vh">
-        <Loader size="xl" color="blue" type="dots" />
-      </Center>
-    );
+    return <ProductDetailsSkeleton />;
   }
 
   if (isError || !product) {
@@ -216,7 +224,13 @@ const ProductDetails = () => {
             <Stack gap="md">
               <Group justify="space-between" align="start">
                 <div>
-                  <Text tt="uppercase" c="dimmed" fw={700} size="xs" style={{ letterSpacing: 1 }}>
+                  <Text
+                    tt="uppercase"
+                    c="dimmed"
+                    fw={700}
+                    size="xs"
+                    style={{ letterSpacing: 1 }}
+                  >
                     {product.brand}
                   </Text>
                   <Title order={1} size="h2" mt={4} fw={800}>
@@ -225,7 +239,10 @@ const ProductDetails = () => {
                 </div>
 
                 <Group>
-                  <FavoriteButton isFavorite={isFavorite(product.id)} onClick={handleFavoriteClick} />
+                  <FavoriteButton
+                    isFavorite={isFavorite(product.id)}
+                    onClick={handleFavoriteClick}
+                  />
                   <ActionIcon
                     variant="light"
                     color="gray"
