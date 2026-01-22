@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { productDetailRoute } from "../../../router";
 import { useGetProductById } from "../hooks/useGetProductById";
@@ -149,6 +149,10 @@ const ProductDetails = () => {
     },
     [product, toggleFavorite]
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!productId) {
     return <NotFoundState onBack={goBack} />;
