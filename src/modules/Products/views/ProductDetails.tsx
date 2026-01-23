@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { productDetailRoute } from "../../../router";
 import { useGetProductById } from "../hooks/useGetProductById";
@@ -25,6 +25,7 @@ import {
 import { IconArrowLeft, IconShare, IconShoppingCart, IconTrash } from "@tabler/icons-react";
 import ProductBadges from "./components/ProductBadges";
 import { FavoriteButton } from "./components/FavoriteButton";
+import { DeleteProductModal } from "./components/DeleteProductModal";
 
 function BackToProductsButton({ onClick }: { onClick: () => void }) {
   return (
@@ -124,6 +125,8 @@ const ProductDetails = () => {
     onError: () => console.error("Failed to delete product"),
   });
 
+  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+
   const reviews = useMemo(() => product?.reviews ?? [], [product]);
   const tags = useMemo(() => product?.tags ?? [], [product]);
   const rating = product?.rating ?? 0;
@@ -136,9 +139,13 @@ const ProductDetails = () => {
 
   const handleDelete = useCallback(() => {
     if (!product) return;
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      deleteProduct(product.id);
-    }
+    setDeleteModalOpened(true);
+  }, [product]);
+
+  const confirmDelete = useCallback(() => {
+    if (!product) return;
+    deleteProduct(product.id);
+    setDeleteModalOpened(false);
   }, [deleteProduct, product]);
 
   const handleFavoriteClick = useCallback(
@@ -179,141 +186,151 @@ const ProductDetails = () => {
   }
 
   return (
-    <Container size="xl" py="xl">
-      <BackToProductsButton onClick={goBack} />
+    <>
+      <DeleteProductModal
+        opened={deleteModalOpened}
+        onClose={() => setDeleteModalOpened(false)}
+        onConfirm={confirmDelete}
+        productName={product.name}
+        isDeleting={isDeleting}
+      />
 
-      <Paper shadow="sm" radius="lg" withBorder p={{ base: "md", md: "xl" }}>
-        <Grid gutter={50}>
-          {/* Image */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Center
-              p="xl"
-              style={{
-                borderRadius: "var(--mantine-radius-lg)",
-                minHeight: "400px",
-                position: "relative",
-              }}
-              className="relative"
-            >
-              <Image
-                src={product.image}
-                alt={product.name}
-                fit="contain"
-                h={400}
-                w="100%"
+      <Container size="xl" py="xl">
+        <BackToProductsButton onClick={goBack} />
+
+        <Paper shadow="sm" radius="lg" withBorder p={{ base: "md", md: "xl" }}>
+          <Grid gutter={50}>
+            {/* Image */}
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Center
+                p="xl"
                 style={{
-                  filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.1))",
-                  transition: "transform 0.3s ease",
+                  borderRadius: "var(--mantine-radius-lg)",
+                  minHeight: "400px",
+                  position: "relative",
                 }}
-                className="hover:scale-105"
-              />
-              <div className="absolute top-4 right-4">
-
-                <ProductBadges
-                  isPrimePick={product.isPrimePick}
-                  hasDiscounts={product.hasDiscounts}
-                  isAvailable={product.isAvailable}
-                  discountPercentage={product.discountPercentage}
+                className="relative"
+              >
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fit="contain"
+                  h={400}
+                  w="100%"
+                  style={{
+                    filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.1))",
+                    transition: "transform 0.3s ease",
+                  }}
+                  className="hover:scale-105"
                 />
-              </div>
-            </Center>
-          </Grid.Col>
+                <div className="absolute top-4 right-4">
 
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Stack gap="md">
-              <Group justify="space-between" align="start">
-                <div>
-                  <Text tt="uppercase" c="dimmed" fw={700} size="xs" style={{ letterSpacing: 1 }}>
-                    {product.brand}
-                  </Text>
-                  <Title order={1} size="h2" mt={4} fw={800}>
-                    {product.name}
-                  </Title>
+                  <ProductBadges
+                    isPrimePick={product.isPrimePick}
+                    hasDiscounts={product.hasDiscounts}
+                    isAvailable={product.isAvailable}
+                    discountPercentage={product.discountPercentage}
+                  />
                 </div>
+              </Center>
+            </Grid.Col>
 
-                <Group>
-                  <FavoriteButton isFavorite={isFavorite(product.id)} onClick={handleFavoriteClick} />
-                  <ActionIcon
-                    variant="light"
-                    color="gray"
-                    size="lg"
-                    radius="xl"
-                    aria-label="Share product"
-                  >
-                    <IconShare size={20} />
-                  </ActionIcon>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Stack gap="md">
+                <Group justify="space-between" align="start">
+                  <div>
+                    <Text tt="uppercase" c="dimmed" fw={700} size="xs" style={{ letterSpacing: 1 }}>
+                      {product.brand}
+                    </Text>
+                    <Title order={1} size="h2" mt={4} fw={800}>
+                      {product.name}
+                    </Title>
+                  </div>
+
+                  <Group>
+                    <FavoriteButton isFavorite={isFavorite(product.id)} onClick={handleFavoriteClick} />
+                    <ActionIcon
+                      variant="light"
+                      color="gray"
+                      size="lg"
+                      radius="xl"
+                      aria-label="Share product"
+                    >
+                      <IconShare size={20} />
+                    </ActionIcon>
+                  </Group>
                 </Group>
-              </Group>
 
-              <Group gap="xs" align="center">
-                <Rating value={rating} readOnly fractions={2} size="md" />
-                <Text size="sm" c="dimmed" style={{ marginTop: 2 }}>
-                  ({reviews.length} reviews)
-                </Text>
-              </Group>
-
-              <Text size="lg" c="dimmed" lh={1.6}>
-                {product.description}
-              </Text>
-
-              <Divider my="sm" />
-
-              <Group align="flex-end" gap="xs">
-                <Text size="3rem" fw={800} lh={1} c="blue">
-                  ${product.price}
-                </Text>
-
-                {originalPrice !== null && (
-                  <Text size="xl" c="dimmed" td="line-through" mb={6}>
-                    ${originalPrice}
+                <Group gap="xs" align="center">
+                  <Rating value={rating} readOnly fractions={2} size="md" />
+                  <Text size="sm" c="dimmed" style={{ marginTop: 2 }}>
+                    ({reviews.length} reviews)
                   </Text>
-                )}
-              </Group>
+                </Group>
 
-              <Group gap="sm" mt="sm">
-                <Badge size="lg" variant="dot" color="blue">
-                  {product.category}
-                </Badge>
+                <Text size="lg" c="dimmed" lh={1.6}>
+                  {product.description}
+                </Text>
 
-                {tags.map((tag) => (
-                  <Badge key={tag} size="lg" variant="outline" color="gray">
-                    {tag}
+                <Divider my="sm" />
+
+                <Group align="flex-end" gap="xs">
+                  <Text size="3rem" fw={800} lh={1} c="blue">
+                    ${product.price}
+                  </Text>
+
+                  {originalPrice !== null && (
+                    <Text size="xl" c="dimmed" td="line-through" mb={6}>
+                      ${originalPrice}
+                    </Text>
+                  )}
+                </Group>
+
+                <Group gap="sm" mt="sm">
+                  <Badge size="lg" variant="dot" color="blue">
+                    {product.category}
                   </Badge>
-                ))}
-              </Group>
 
-              <Group mt="xl" grow>
-                <Button
-                  size="xl"
-                  radius="md"
-                  color="blue"
-                  leftSection={<IconShoppingCart />}
-                  disabled={!product.isAvailable}
-                  className="transition-transform active:scale-95"
-                  variant="gradient"
-                  gradient={{ from: "blue", to: "cyan", deg: 90 }}
-                >
-                  Add to Cart
-                </Button>
+                  {tags.map((tag) => (
+                    <Badge key={tag} size="lg" variant="outline" color="gray">
+                      {tag}
+                    </Badge>
+                  ))}
+                </Group>
 
-                <Button
-                  size="xl"
-                  radius="md"
-                  variant="light"
-                  color="red"
-                  leftSection={<IconTrash />}
-                  onClick={handleDelete}
-                >
-                  Delete
-                </Button>
-              </Group>
-            </Stack>
-          </Grid.Col>
-        </Grid>
+                <Group mt="xl" grow>
+                  <Button
+                    size="xl"
+                    radius="md"
+                    color="blue"
+                    leftSection={<IconShoppingCart />}
+                    disabled={!product.isAvailable}
+                    className="transition-transform active:scale-95"
+                    variant="gradient"
+                    gradient={{ from: "blue", to: "cyan", deg: 90 }}
+                  >
+                    Add to Cart
+                  </Button>
 
-        <ReviewsSection reviews={reviews} />
-      </Paper>
-    </Container>
+                  <Button
+                    size="xl"
+                    radius="md"
+                    variant="light"
+                    color="red"
+                    leftSection={<IconTrash />}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                </Group>
+              </Stack>
+            </Grid.Col>
+          </Grid>
+
+          <ReviewsSection reviews={reviews} />
+        </Paper>
+      </Container>
+    </>
   );
 };
 
