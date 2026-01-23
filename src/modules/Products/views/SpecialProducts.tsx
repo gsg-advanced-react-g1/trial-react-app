@@ -5,9 +5,18 @@ import { calculateAverageRating } from "../utils/productUtils";
 import ProductCard from "./components/ProductCard";
 import type { Product } from "../entities/Product";
 import { useSpecialOffersProducts } from "../hooks/useSpecialOffersProducts";
+import { useCallback } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 const SpecialProducts = () => {
   const { data: products } = useSpecialOffersProducts(10, 30);
+
+  const navigate = useNavigate();
+
+  const handleCardClick = useCallback(
+    (id: string) => navigate({ to: "/products/$id", params: { id } }),
+    [navigate]
+  );
 
   return (
     <div className="relative min-h-screen">
@@ -26,6 +35,8 @@ const SpecialProducts = () => {
                     product={product}
                     averageRating={avgRating}
                     isConcise={true}
+                    onCardClick={() => handleCardClick(product.id)}
+
                   />
                 </Grid.Col>
               );
