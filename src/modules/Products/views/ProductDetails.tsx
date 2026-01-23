@@ -193,6 +193,7 @@ const ProductDetails = () => {
                 minHeight: "400px",
                 position: "relative",
               }}
+              className="relative"
             >
               <Image
                 src={product.image}
@@ -206,13 +207,15 @@ const ProductDetails = () => {
                 }}
                 className="hover:scale-105"
               />
+              <div className="absolute top-4 right-4">
 
-              <ProductBadges
-                isPrimePick={product.isPrimePick}
-                hasDiscounts={product.hasDiscounts}
-                isAvailable={product.isAvailable}
-                discountPercentage={product.discountPercentage}
-              />
+                <ProductBadges
+                  isPrimePick={product.isPrimePick}
+                  hasDiscounts={product.hasDiscounts}
+                  isAvailable={product.isAvailable}
+                  discountPercentage={product.discountPercentage}
+                />
+              </div>
             </Center>
           </Grid.Col>
 
