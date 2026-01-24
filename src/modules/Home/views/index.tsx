@@ -8,7 +8,7 @@ import { useSpecialOffersProducts } from "../../Products/hooks/useSpecialOffersP
 
 const Home = () => {
   const isSpecialOffersEnabled = useFeatureFlag("isSpecialOffersEnabled");
-  const { data: products } = useSpecialOffersProducts(10, 5);
+  const { products } = useSpecialOffersProducts(10);
   const navigate = useNavigate();
 
   return <>
@@ -17,7 +17,7 @@ const Home = () => {
       isSpecialOffersEnabled &&
       <SpecialOffersContainer title="Special Offers" subtitle="Check out our special offers">
         {
-          products?.map((item: Product) => (
+          products.slice(0, 5).map((item: Product) => (
             <ProductCard product={item} averageRating={calculateAverageRating(item.reviews)} isConcise={true} onCardClick={() => { navigate({ to: `/products/${item.id}` }) }} />
           ))
         }

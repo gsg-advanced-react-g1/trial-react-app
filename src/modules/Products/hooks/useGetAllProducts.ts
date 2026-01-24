@@ -9,7 +9,10 @@ const reactQueryProductsKey = "products";
 const PRODUCTS_PER_PAGE = 8;
 
 export const useGetAllProducts = (filters?: ProductsFilters) => {
-  const { getAll } = useProducts();
+  const { getAll, search } = useProducts();
+
+  const searchQuery = filters?.search?.trim() ?? "";
+  const hasSearch = searchQuery.length > 0;
 
   const {
     data,
@@ -19,9 +22,13 @@ export const useGetAllProducts = (filters?: ProductsFilters) => {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: [reactQueryProductsKey, filters?.category],
-    queryFn: ({ pageParam = 0 }) =>
-      getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE, filters?.category),
+    queryKey: [reactQueryProductsKey, filters?.category, filters?.search],
+    queryFn: ({ pageParam = 0 }) => {
+      if (hasSearch) {
+        return search(searchQuery, PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE);
+      }
+      return getAll(PRODUCTS_PER_PAGE, pageParam * PRODUCTS_PER_PAGE, filters?.category);
+    },
     getNextPageParam: (lastPage: Product[], allPages) =>
       lastPage.length === PRODUCTS_PER_PAGE ? allPages.length : undefined,
     initialPageParam: 0,
