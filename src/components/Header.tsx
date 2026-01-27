@@ -51,8 +51,8 @@ const Header = () => {
         <ModeToggleBtn />
         {user ? <LogoutButton variant="outline" /> :
           <div className="flex items-center gap-3">
-            <Button variant="outline">Login</Button>
-            <Button variant="filled">Register</Button>
+            <Button variant="outline" component={Link} to="/login">Login</Button>
+            <Button variant="filled" component={Link} to="/register">Register</Button>
           </div>
         }
       </div>
