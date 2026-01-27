@@ -10,6 +10,7 @@ import Home from "./modules/Home/views";
 import ProductDetails from "./modules/Products/views/ProductDetails";
 import NotFound from "./NotFound";
 import SpecialProducts from "./modules/Products/views/SpecialProducts";
+import { Register } from "./modules/Auth/register/components/RegisterForm";
 
 const rootRoute = createRootRoute({
     component: MainLayout,
@@ -20,6 +21,12 @@ const homeRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/",
     component: Home,
+});
+
+const registerRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/register",
+    component: Register,
 });
 
 const productsRoute = createRoute({
@@ -48,6 +55,7 @@ export const SpecialProductsRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
     homeRoute,
+    registerRoute,
     productsRoute.addChildren([productsIndexRoute, SpecialProductsRoute, productDetailRoute]),
 ]);
 
