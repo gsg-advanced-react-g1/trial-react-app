@@ -17,7 +17,7 @@ const LogoutButton: React.FC<Props> = ({ redirectTo = "/login", variant = "light
 
     return (
         <>
-            <Button variant={variant} loading={isLoggingOut} onClick={runLogout}>
+            <Button variant={variant} loading={isLoggingOut} onClick={runLogout} color="red">
                 Logout
             </Button>
 

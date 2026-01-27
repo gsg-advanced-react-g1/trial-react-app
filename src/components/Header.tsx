@@ -2,6 +2,8 @@ import { Button, Group } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { ModeToggleBtn } from "../modules/Theme/Views/ModeToggleBtn";
 import { IconBuildingStore } from "@tabler/icons-react";
+import { LogoutButton } from "../modules/Auth/logour";
+import { useAuth } from "../modules/Auth/shared/hooks/useAuth";
 
 const navs = [
   {
@@ -15,6 +17,8 @@ const navs = [
 ];
 
 const Header = () => {
+
+  const { user } = useAuth();
 
   return (
     <header
@@ -45,10 +49,12 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-5">
         <ModeToggleBtn />
-        <div className="flex items-center gap-3">
-          <Button variant="outline">Login</Button>
-          <Button variant="filled">Register</Button>
-        </div>
+        {user ? <LogoutButton variant="outline" /> :
+          <div className="flex items-center gap-3">
+            <Button variant="outline">Login</Button>
+            <Button variant="filled">Register</Button>
+          </div>
+        }
       </div>
     </header>
   );
