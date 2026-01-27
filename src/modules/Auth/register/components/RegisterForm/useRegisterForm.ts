@@ -7,7 +7,7 @@ import { signUpWithEmailPassword } from "../../services/register.service";
 import { mapSupabaseAuthError } from "../../utils/mapSupabaseAuthError";
 
 function getDefaultEmailRedirectTo() {
-    return new URL("/auth/callback", window.location.origin).toString();
+    return new URL("/login", window.location.origin).toString();
 }
 
 function normalizeEmail(email: string) {

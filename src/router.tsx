@@ -10,7 +10,7 @@ import Home from "./modules/Home/views";
 import ProductDetails from "./modules/Products/views/ProductDetails";
 import NotFound from "./NotFound";
 import SpecialProducts from "./modules/Products/views/SpecialProducts";
-import { Register } from "./modules/Auth/register/components/RegisterForm";
+import { Register } from "./modules/Auth/register/views";
 
 const rootRoute = createRootRoute({
     component: MainLayout,
