@@ -1,16 +1,8 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "../../../lib/supabaseClient";
-
-type AuthState = {
-    session: Session | null;
-    user: User | null;
-    isLoading: boolean;
-    isAuthenticated: boolean;
-    isEmailVerified: boolean;
-};
-
-const AuthContext = createContext<AuthState | null>(null);
+import { supabase } from "../../lib/supabaseClient";
+import AuthContext from "./context/AuthContext";
+import type { AuthState } from "./entities/types";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [session, setSession] = useState<Session | null>(null);
@@ -45,11 +37,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const value = useMemo<AuthState>(() => {
         const isAuthenticated = !!session;
-        const isEmailVerified = !!user?.email_confirmed_at; // Supabase field
+        const isEmailVerified = !!user?.email_confirmed_at;
         return { session, user, isLoading, isAuthenticated, isEmailVerified };
     }, [session, user, isLoading]);
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-
-export default AuthContext;

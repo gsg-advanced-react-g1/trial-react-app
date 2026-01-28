@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, type LoginValues } from "./login.schema";
-import { loginWithEmailPassword, resendSignupVerificationEmail } from "../../services/login.service";
+import { loginWithEmailPassword, resendSignupVerificationEmail } from "../../../services/login.service";
 import type { LoginFormProps } from "./login.types";
 
 function normalizeEmail(email: string) {

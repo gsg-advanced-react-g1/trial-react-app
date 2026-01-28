@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, Stack } from "@mantine/core";
-import { LoginForm } from "../components/LoginForm";
+import { LoginForm } from "../../components/login/LoginForm";
 
 const Login: React.FC = () => {
     return (

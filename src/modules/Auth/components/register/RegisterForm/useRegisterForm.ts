@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterValues } from "./register.schema";
 import type { RegisterFormProps } from "./register.types";
-import { signUpWithEmailPassword } from "../../services/register.service";
-import { mapSupabaseAuthError } from "../../utils/mapSupabaseAuthError";
+import { signUpWithEmailPassword } from "../../../services/register.service";
+import { mapSupabaseAuthError } from "../../../utils/mapSupabaseAuthError";
 
 function getDefaultEmailRedirectTo() {
     return new URL("/login", window.location.origin).toString();

@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { router } from "./router";
 import { RouterProvider } from "@tanstack/react-router";
-import { AuthProvider } from "./modules/Auth/shared/AuthProvider";
+import { AuthProvider } from "./modules/Auth/index.tsx";
 
 const { Provider: ProductsProvider } = createProductsModule();
 

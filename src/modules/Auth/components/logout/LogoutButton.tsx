@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Notification } from "@mantine/core";
-import { useLogout } from "../hooks/useLogout";
+import { useLogout } from "../../hooks/useLogout";
 
 type Props = {
     redirectTo?: string; // after logout

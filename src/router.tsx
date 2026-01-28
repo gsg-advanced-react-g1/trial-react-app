@@ -10,8 +10,8 @@ import Home from "./modules/Home/views";
 import ProductDetails from "./modules/Products/views/ProductDetails";
 import NotFound from "./NotFound";
 import SpecialProducts from "./modules/Products/views/SpecialProducts";
-import { Register } from "./modules/Auth/register/views";
-import Login from "./modules/Auth/login/views";
+import { Register } from "./modules/Auth/views/register";
+import Login from "./modules/Auth/views/login";
 
 const rootRoute = createRootRoute({
     component: MainLayout,

@@ -2,8 +2,8 @@ import { Button, Group } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { ModeToggleBtn } from "../modules/Theme/Views/ModeToggleBtn";
 import { IconBuildingStore } from "@tabler/icons-react";
-import { LogoutButton } from "../modules/Auth/logout";
-import { useAuth } from "../modules/Auth/shared/hooks/useAuth";
+import { LogoutButton } from "../modules/Auth/views/logout";
+import { useAuth } from "../modules/Auth/hooks/useAuth";
 
 const navs = [
   {
