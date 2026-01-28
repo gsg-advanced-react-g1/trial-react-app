@@ -1,8 +1,9 @@
 import React from "react";
-import { Alert, Anchor, Button, Group, Paper, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Alert, Button, Group, Paper, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
 
 import type { LoginFormProps } from "./login.types";
 import { useLoginForm } from "./useLoginForm";
+import { Link } from "@tanstack/react-router";
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, showLinks = true }) => {
     const {
@@ -82,12 +83,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, showLinks = true }) =>
 
                             {showLinks && (
                                 <Group justify="space-between" mt={4}>
-                                    <Anchor href="/register" size="sm">
+                                    <Link to="/register">
                                         Create account
-                                    </Anchor>
-                                    <Anchor href="/forgot-password" size="sm">
-                                        Forgot password?
-                                    </Anchor>
+                                    </Link>
                                 </Group>
                             )}
                         </Stack>
