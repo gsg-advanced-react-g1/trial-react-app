@@ -18,7 +18,13 @@ const Home = () => {
       <SpecialOffersContainer title="Special Offers" subtitle="Check out our special offers">
         {
           products.slice(0, 5).map((item: Product) => (
-            <ProductCard product={item} averageRating={calculateAverageRating(item.reviews)} isConcise={true} onCardClick={() => { navigate({ to: `/products/${item.id}` }) }} />
+            <ProductCard
+              key={item.id}
+              product={item}
+              averageRating={calculateAverageRating(item.reviews)}
+              isConcise={true}
+              onCardClick={() => { navigate({ to: `/products/${item.id}` }) }}
+            />
           ))
         }
       </SpecialOffersContainer>

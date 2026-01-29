@@ -1,4 +1,3 @@
-
 import "./App.css";
 import "@mantine/core/styles.css";
 import "lenis/dist/lenis.css";
@@ -9,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { router } from "./router";
 import { RouterProvider } from "@tanstack/react-router";
+import { AuthProvider } from "./modules/Auth/index.tsx";
 
 const { Provider: ProductsProvider } = createProductsModule();
 
@@ -20,10 +20,12 @@ function App() {
       <ReactQueryDevtools />
       <MantineProvider>
         <ReactLenis root options={{ autoRaf: true, lerp: 0.08, duration: 1.4 }}>
-          <ProductsProvider>
-            <ReactQueryDevtools />
-            <RouterProvider router={router} />
-          </ProductsProvider>
+          <AuthProvider>
+            <ProductsProvider>
+              <ReactQueryDevtools />
+              <RouterProvider router={router} />
+            </ProductsProvider>
+          </AuthProvider>
         </ReactLenis>
       </MantineProvider >
     </QueryClientProvider >
