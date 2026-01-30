@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
     createRootRoute,
     createRoute,
@@ -12,6 +13,7 @@ import NotFound from "./NotFound";
 import SpecialProducts from "./modules/Products/views/SpecialProducts";
 import { Register } from "./modules/Auth/views/register";
 import Login from "./modules/Auth/views/login";
+import { requireAuth, requireGuest } from "./modules/Auth/utils/routeGuards";
 
 const rootRoute = createRootRoute({
     component: MainLayout,
@@ -28,12 +30,14 @@ const registerRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/register",
     component: Register,
+    beforeLoad: requireGuest,
 });
 
 const loginRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/login",
     component: Login,
+    beforeLoad: requireGuest,
 });
 
 const productsRoute = createRoute({
@@ -58,6 +62,7 @@ export const SpecialProductsRoute = createRoute({
     getParentRoute: () => productsRoute,
     path: "special-products",
     component: SpecialProducts,
+    beforeLoad: requireAuth,
 });
 
 const routeTree = rootRoute.addChildren([
