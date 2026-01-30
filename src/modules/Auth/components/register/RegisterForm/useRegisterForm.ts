@@ -41,18 +41,23 @@ export function useRegisterForm(props: RegisterFormProps) {
         setServerMessage(null);
 
         try {
-            const { needsEmailConfirm } = await signUpWithEmailPassword({
+            const { status } = await signUpWithEmailPassword({
                 email: normalizeEmail(values.email),
                 password: values.password,
                 fullName: values.fullName.trim(),
                 emailRedirectTo,
             });
 
-            setServerMessage(
-                needsEmailConfirm
-                    ? "Account created. Please check your email to confirm your account."
-                    : "Account created successfully."
-            );
+            setServerMessage(() => {
+                switch (status) {
+                    case "signed_in":
+                        return "Already signed in";
+                    case "confirmation_sent":
+                        return "Check your email.";
+                    case "already_registered":
+                        return "Account already registered.";
+                }
+            });
 
             props.onSuccess?.(normalizeEmail(values.email));
             form.reset();
