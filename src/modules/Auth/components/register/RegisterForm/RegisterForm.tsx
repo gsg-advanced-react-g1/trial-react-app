@@ -2,6 +2,7 @@ import React from "react";
 import { Alert, Button, Paper, Stack, Text, TextInput, PasswordInput, Title } from "@mantine/core";
 import type { RegisterFormProps } from "./register.types";
 import { useRegisterForm } from "./useRegisterForm";
+import RegisterMessage from "./RegisterMessage";
 
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     const { form, submit, serverError, serverMessage } = useRegisterForm(props);
@@ -28,9 +29,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                     )}
 
                     {serverMessage && (
-                        <Alert color="green" title="Success">
-                            {serverMessage}
-                        </Alert>
+                        <RegisterMessage serverMessage={serverMessage} />
                     )}
 
                     <form onSubmit={submit} noValidate>
