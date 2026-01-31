@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=trial-react-app",
+    "dev:admin": "turbo dev --filter=admin",
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",

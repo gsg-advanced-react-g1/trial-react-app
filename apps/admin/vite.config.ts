@@ -1,11 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
-// https://vite.dev/config/
 export default defineConfig({
   server: {
-    port: 5174, // Different port from web app (5173)
+    port: 5179,
   },
   plugins: [
     react({
