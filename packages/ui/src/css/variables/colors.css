@@ -1,0 +1,83 @@
+:root {
+  --colors-azure-1: #e8f1ffff;
+  --colors-azure-2: #297bffff;
+  --colors-azure-3: #1f62cfff;
+
+  --colors-black: #212121;
+  --colors-white: #ffffff;
+
+  --colors-gray-1: #fafafaff;
+  --colors-gray-2: #f5f5f5ff;
+  --colors-gray-3: #292929ff;
+  --colors-gray-4: #252525ff;
+
+  --colors-green-1: #5bc57fff;
+  --colors-green-2: #1aa348ff;
+  --colors-green-3: #168c3fff;
+
+  --colors-magenta-1: #ed34d4ff;
+  --colors-magenta-2: #c227adff;
+  --colors-magenta-3: #971a86ff;
+  --colors-magenta-4: #6b0d5eff;
+  --colors-magenta-5: #400037ff;
+
+  --colors-purple-1: #8667ffff;
+  --colors-purple-2: #6038ffff;
+  --colors-purple-3: #4b2acfff;
+
+  --colors-red-1: #f69494ff;
+  --colors-red-2: #f26464ff;
+  --colors-red-3: #ed3333ff;
+
+  --colors-yellow-100: #fffcf5ff;
+  --colors-yellow-150: #fff3deff;
+  --colors-yellow-200: #feebc3ff;
+  --colors-yellow-300: #feebc6ff;
+
+  --brand-primary: var(--colors-purple-2);
+  --brand-secondary: var(--colors-purple-3);
+  --danger-primary: var(--colors-red-3);
+  --danger-secondary: var(--colors-red-4);
+  --static-white: var(--colors-white);
+
+  --disabled-opacity: 0.3;
+
+  --colors-azure-100: rgb(7, 11, 15);
+
+  --background-primary: var(--colors-white);
+  --background-secondary: var(--colors-gray-100);
+  --background-secondary-light: #fafafacc;
+  --background-tertiary: var(--colors-gray-120);
+  --background-provisory: var(--colors-white);
+  --background-gradient:
+    linear-gradient(
+      300deg,
+      rgba(242, 247, 255, 0.18) 0%,
+      rgba(242, 247, 255, 0) 100%
+    ),
+    --background-blurred: #ffffffcc;
+
+  --color-body: var(--background-primary);
+
+  --vibrancy-background-primary: #f3f0ffe6;
+  --vibrancy-background-secondary: #e5e3fce6;
+
+  --highlight-azure-bg: var(--colors-azure-1);
+  --highlight-gray-bg: var(--colors-gray-1);
+
+  --global-background-overlay: rgba(255, 255, 255, 0.8);
+
+  --border: var(--colors-gray-3);
+  --error: var(--colors-red-3);
+  --success: var(--colors-green-3);
+  --info: var(--colors-azure-3);
+  --warning: var(--colors-yellow-3);
+
+  --gradient-ai-secondary: linear-gradient(
+    to right,
+    var(--border),
+    var(--foreground-primary),
+    var(--border),
+    var(--border)
+  );
+}

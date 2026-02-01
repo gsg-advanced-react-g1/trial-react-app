@@ -1,0 +1,1 @@
+export type Spacing = "xxs" | "xs" | "sm" | "md" | "lg" | "xl";

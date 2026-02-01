@@ -1,0 +1,8 @@
+@import "./colors";
+@import "./typography.css";
+
+:root {
+  --mantine-font-family: var(--typography-font-family);
+  --mantine-color-body: var(--color-body);
+  --mantine-color-placeholder: var(--input-placeholder-color);
+}
