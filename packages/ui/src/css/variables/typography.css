@@ -1,0 +1,39 @@
+:root {
+  --typography-font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+  --typography-font-weight-bold: 700;
+  --typography-font-weight-semibold: 600;
+  --typography-font-weight-medium: 500;
+  --typography-font-weight-regular: 400;
+
+  --typography-h1-bold-size: rem(36);
+  --typography-h1-bold-weight: var(--typography-font-weight-bold);
+  --typography-h1-bold-line-height: rem(40);
+  --typography-h1-bold-letter-spacing: -1px;
+
+  --typography-h1-regular-size: rem(36);
+  --typography-h1-regular-weight: var(--typography-font-weight-regular);
+  --typography-h1-regular-line-height: rem(40);
+  --typography-h1-regular-letter-spacing: -1px;
+
+  --typography-h2-bold-size: rem(30);
+  --typography-h2-bold-weight: var(--typography-font-weight-bold);
+  --typography-h2-bold-line-height: rem(40);
+  --typography-h2-bold-letter-spacing: -1px;
+
+  --typography-h2-regular-size: rem(30);
+  --typography-h2-regular-weight: var(--typography-font-weight-regular);
+  --typography-h2-regular-line-height: rem(40);
+
+  --typography-p-semibold-size: rem(16);
+  --typography-p-semibold-weight: var(--typography-font-weight-semibold);
+  --typography-p-semibold-line-height: rem(24);
+  --typography-p-semibold-letter-spacing: 0px;
+
+  --typography-span-large-semibold-size: rem(18);
+  --typography-span-large-semibold-weight: var(
+    --typography-font-weight-semibold
+  );
+}

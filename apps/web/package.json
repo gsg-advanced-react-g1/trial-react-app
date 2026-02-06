@@ -26,7 +26,8 @@
     "react-hook-form": "catalog:",
     "react-spinners": "catalog:",
     "tailwindcss": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@advanced-react/ui": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

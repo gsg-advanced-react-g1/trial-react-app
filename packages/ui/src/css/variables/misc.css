@@ -1,0 +1,22 @@
+@import "./colors";
+
+:root {
+  --radius-xxs: rem(2);
+  --radius-xs: rem(4);
+  --radius-sm: rem(8);
+  --radius-md: rem(12);
+
+  --spacing-xxs: rem(2);
+  --spacing-xs: rem(4);
+  --spacing-sm: rem(8);
+  --spacing-md: rem(12);
+  --spacing-lg: rem(16);
+
+  --size-xxs: rem(8);
+  --size-xs: rem(14);
+  --size-sm: rem(16);
+  --size-md: rem(20);
+  --size-lg: rem(24);
+  --size-xl: rem(32);
+  --size-xxl: rem(40);
+}

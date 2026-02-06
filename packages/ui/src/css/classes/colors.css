@@ -1,0 +1,35 @@
+.brand-primary {
+  color: var(--brand-primary);
+}
+
+.brand-secondary {
+  color: var(--brand-secondary);
+}
+
+.bg-primary {
+  color: var(--background-primary);
+}
+
+.white {
+  color: var(--colors-white);
+}
+
+.error {
+  color: var(--error);
+}
+
+.success {
+  color: var(--success);
+}
+
+.white {
+  color: var(--static-white);
+}
+
+.border {
+  color: var(--border);
+}
+
+.blue {
+  color: var(--info);
+}
